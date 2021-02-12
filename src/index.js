@@ -62,7 +62,7 @@ function getRankings(rankings) {
     // dropdown.setAttribute("id", "weight-classes")
     for (var i = 0; i < rankings.length; i++) {
         // console.log(response.data.rankings.length)
-        let division = rankings[i].name
+        let division = rankings[i].name.split("_").join(" ")
         // rankings[0].competitor_rankings[0].competitor.name
         let competitors = rankings[i].competitor_rankings.map(rank => {
             return rank.competitor 
@@ -73,7 +73,7 @@ function getRankings(rankings) {
             }   
             )
                 dropdown.appendChild(new Option(`${division}`, `${info}` ));
-            }
+    }
   
             dropdown.addEventListener('change', (e) => getFighters(e.target.value))
             // mainContainer.append(dropdown)
@@ -154,8 +154,9 @@ function createModal(id, fighterId) {
     if(!cards[id]) {
         cards[id] = {
           degree:0,
-          fighterObject:fighterInfo(fighterId)  
+          fighterObject:fighterInfo(id, fighterId)  
         } 
+        debugger
     }
     // console.log(k)
 
@@ -172,20 +173,19 @@ function createModal(id, fighterId) {
     // console.log(cards)
 }
 
-function fighterInfo(fighterId) {
+function fighterInfo(id, fighterId) {
     // let isbn = '0201558025';
   // debugger
   console.log("api called again")
-  return "yo"
-//   axios.get(`/fighters/${fighterId}`)
-//   .then((response) => {
-//       debugger
-//       console.log(response.data); 
-//       return response.data
-//   })
-//   .catch(function (error) {
-//       debugger
-//       console.log(error.response);
-//   });
+  axios.get(`/fighters/${fighterId}`)
+  .then((response) => {
+      debugger
+      console.log(response.data.info); 
+      cards[id].fighterObject = response.data
+  })
+  .catch(function (error) {
+      debugger
+      console.log(error.response);
+  });
 
 }
