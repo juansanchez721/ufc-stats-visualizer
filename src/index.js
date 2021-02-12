@@ -26,7 +26,11 @@ import Card from './scripts/card'
 const axios = require('axios');
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    let yo = document.getElementsByClassName('each-fighter')
+    for(let i = 0; i< yo.length; i++) {
+        yo[i].addEventListener("click", () => createModal(yo[i].id, i))
+    }
+    
     // axios.get(`/rankings`)
     // .then((response) => {
     //     debugger
@@ -97,33 +101,37 @@ function getFighters(competitors) {
     let dContainer = document.getElementById("data-container")
     dContainer.innerHTML = '';
 
-    let promises = []
-    let fighterIds = []
-
     fightfight.forEach((fighter, i) => {
 
-                fighterIds.push(fighter.id)
-
                 var fightStats = document.createElement("div") //main div to append things to
-                fightStats.setAttribute("id", `each-fighter` )
+                fightStats.setAttribute("id", `each-fighter-${i}` )
+                fightStats.classList.add("each-fighter");
                 
                 var fighterImg = document.createElement("div") //div to append img to
-                fighterImg.setAttribute("id", "fighter-img")
+                fighterImg.setAttribute("id", `${ i === 0 ? "champ-img" : "fighter-img"}`)
 
                 var fighterInfo = document.createElement("div") //div to append text/data to
                 fighterInfo.setAttribute("id", "fighter-info")
                 
                 let name = fighter.name.split(", ").reverse().join(" ") //flip name around
-                let position = i === 0 ? "champion" : i;  //if position is 0, then athlete is current champion if division
-                var text = document.createTextNode(`${name}, ${fighter.id},  rank: ${position}`)
+                let position = i === 0 ? "Champion" : i;  //if position is 0, then athlete is current champion if division
+                // var text = document.createTextNode(`${name}, ${fighter.id},  rank: ${position}`)
                 
-                fighterInfo.appendChild(text)
+                let rank = document.createElement("h1")
+                rank.textContent = `${position}`
+
+                let fighterName = document.createElement("h1")
+                fighterName.textContent = `${name}`
+
+                fighterInfo.appendChild(rank)
+                fighterInfo.appendChild(fighterName)
+
                 fightStats.appendChild(fighterImg)
                 fightStats.appendChild(fighterInfo)
 
                 dContainer.appendChild(fightStats)
                 fightStats.addEventListener("click", (event) => {
-                    new Card()
+                    createModal(`each-fighter-${i}`, fighter.id)
                     // axios.get(`/fighters/${fighter.id}`)
                     // .then((response) => {
                     // debugger
@@ -135,33 +143,40 @@ function getFighters(competitors) {
                     // console.log(error.response);
                     // });
                 })
-                // fighterInfo(fighter.id)
-                // promises.push(axios.get(`/fighters/${fighter.id}`))
                          
     })
-    // Promise.allSettled(promises).
-    // then((results) => results.forEach((result) => console.log(result.status)));
-    // console.log(fighterIds)
 
-    // fighterIds.forEach(fighterId => {
-    //     promises.push(axios.get(`/fighters/${fighterId}`))
-    // })
-
-    // Promise.all(promises)
-    // .then((results) => {
-    //     // for(let i=0; i< results.length; i++){
-    //         console.log(results)
-    //         return results
-    //         // }
-    //     })
-    //     .catch((error) => console.log(error))
-        
-    //     console.log(promises)
 }
 
-// function fighterInfo(fighterId) {
-//     // let isbn = '0201558025';
-//   // debugger
+let cards = {}
+function createModal(id, fighterId) {
+    console.log(cards)
+    if(!cards[id]) {
+        cards[id] = {
+          degree:0,
+          fighterObject:fighterInfo(fighterId)  
+        } 
+    }
+    // console.log(k)
+
+    var card = document.getElementById(id);
+    if (cards[id].degree !== 0)  {
+        cards[id].degree -= 180;
+
+    } else {
+        cards[id].degree += 180;
+    }
+
+    card.style.transform = "rotatey(" + cards[id].degree + "deg)";
+    card.style.transitionDuration = "0.9s"
+    // console.log(cards)
+}
+
+function fighterInfo(fighterId) {
+    // let isbn = '0201558025';
+  // debugger
+  console.log("api called again")
+  return "yo"
 //   axios.get(`/fighters/${fighterId}`)
 //   .then((response) => {
 //       debugger
@@ -173,4 +188,4 @@ function getFighters(competitors) {
 //       console.log(error.response);
 //   });
 
-// }
+}
