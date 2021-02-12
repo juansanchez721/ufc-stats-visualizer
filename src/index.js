@@ -27,18 +27,18 @@ const axios = require('axios');
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    axios.get(`/rankings`)
-    .then((response) => {
-        debugger
-        const rankings = response.data.rankings
-        console.log(rankings); 
+    // axios.get(`/rankings`)
+    // .then((response) => {
+    //     debugger
+    //     const rankings = response.data.rankings
+    //     console.log(rankings); 
 
-        getRankings(rankings)
-    })
-    .catch(function (error) {
-        debugger
-        console.log(error.response);
-    })
+    //     getRankings(rankings)
+    // })
+    // .catch(function (error) {
+    //     debugger
+    //     console.log(error.response);
+    // })
 
     // let query = "grace hopper";
     // axios.get(`/search?string=${query}`)
