@@ -28,7 +28,7 @@ const axios = require('axios');
 document.addEventListener('DOMContentLoaded', () => {
     let yo = document.getElementsByClassName('each-fighter')
     for(let i = 0; i< yo.length; i++) {
-        yo[i].addEventListener("click", () => createModal(yo[i].id, i))
+        yo[i].addEventListener("click", () => flipCard(yo[i].id, i))
     }
     
     axios.get(`/rankings`)
@@ -82,7 +82,8 @@ function getRankings(rankings) {
 
 function getFighters(competitors) {
     debugger 
-
+    cards = {}
+    console.log(cards)
     let fighters = competitors.split("|")
     let athletes = fighters.map((fighter) => {
         return fighter.split(",").filter(item => item !== "")
@@ -112,6 +113,7 @@ function getFighters(competitors) {
 
                 var fighterInfo = document.createElement("div") //div to append text/data to
                 fighterInfo.setAttribute("id", "fighter-info")
+
                 
                 let name = fighter.name.split(", ").reverse().join(" ") //flip name around
                 let position = i === 0 ? "Champion" : i;  //if position is 0, then athlete is current champion if division
@@ -129,27 +131,29 @@ function getFighters(competitors) {
                 fightStats.appendChild(fighterImg)
                 fightStats.appendChild(fighterInfo)
 
+                let flipped = document.createElement("div") //div to append text/data to
+                fightStats.appendChild(flipped)
+
+
                 dContainer.appendChild(fightStats)
                 fightStats.addEventListener("click", (event) => {
-                    createModal(`each-fighter-${i}`, fighter.id)
-                    // axios.get(`/fighters/${fighter.id}`)
-                    // .then((response) => {
-                    // debugger
-                    // console.log(response.data); 
-                    // return response.data
-                    // })
-                    // .catch(function (error) {
-                    // debugger
-                    // console.log(error.response);
-                    // });
+                    flipCard(`each-fighter-${i}`, fighter.id)
                 })
                          
     })
 
 }
 
+
+function addFlippedInfo(id) {
+    debugger
+    console.log(id)
+    let flip = document.getElementById(id).children[2] //grab the flip div
+    flip.innerHTML = `${cards[id].fighterObject.info.nickname}`
+}
+
 let cards = {}
-function createModal(id, fighterId) {
+function flipCard(id, fighterId) {
     console.log(cards)
     if(!cards[id]) {
         cards[id] = {
@@ -161,16 +165,28 @@ function createModal(id, fighterId) {
     // console.log(k)
 
     var card = document.getElementById(id);
+    let flip = document.getElementById(id).children[2] //grab the flip div
+    debugger
+    console.log(flip)
     if (cards[id].degree !== 0)  {
         cards[id].degree -= 180;
-
+        // flip.style.display = "none"
+        // card.style.transitionDuration = "0.9s"
+        flip.classList.remove("flip-div")
+        flip.classList.add("hide-div")
+        // flip.innerHTML = ""
     } else {
         cards[id].degree += 180;
+        flip.classList.remove("hide-div")
+        flip.classList.add("flip-div")
+        debugger
+        // document.getElementById("flip-div").style.display = "block"
     }
 
     card.style.transform = "rotatey(" + cards[id].degree + "deg)";
     card.style.transitionDuration = "0.9s"
     // console.log(cards)
+    debugger
 }
 
 function fighterInfo(id, fighterId) {
@@ -180,8 +196,9 @@ function fighterInfo(id, fighterId) {
   axios.get(`/fighters/${fighterId}`)
   .then((response) => {
       debugger
-      console.log(response.data.info); 
+      console.log(response.data); 
       cards[id].fighterObject = response.data
+      addFlippedInfo(id)
   })
   .catch(function (error) {
       debugger

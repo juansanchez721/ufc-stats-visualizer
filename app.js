@@ -34,15 +34,25 @@ app.get('/', (request, res) => {
 // create route to get single book by its isbn
 app.get('/rankings', (request, response) => {
   // make api call using fetch
-  debugger
   fetch(`http://api.sportradar.us/ufc/trial/v2/en/rankings.json?api_key=${secret.apikey}`)
+  .then(response => {
+    if(!response.ok) {
+      throw new Error("This is an error")
+    } else {
+      return response
+    }
+
+  })
   .then((response) => {
       return response.text();
   }).then((body) => {
       let results = JSON.parse(body)
       console.log(results)   // logs to server
       response.send(results) // sends to frontend
-    });
+    })
+    .catch(function (error) {
+      response.send(error.response);
+  });
 });
 
 app.get('/fighters/:fighterId', (request, response) => {
@@ -50,14 +60,11 @@ app.get('/fighters/:fighterId', (request, response) => {
   .then((response) => {
       return response.text();
   }).then((body) => {
-      debugger
       let results = JSON.parse(body)
-      debugger  
       console.log(results)
       response.send(results)
     })
     .catch(function (error) {
-      debugger
       console.log(error.response);
   });
 });

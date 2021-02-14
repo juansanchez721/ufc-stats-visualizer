@@ -108,3 +108,15 @@ body {
     align-items: center;
 }
 
+.flip-div {
+display: block;
+position: absolute;
+background-color: white;
+color: black;
+height: 97.5%;
+width: 99%;
+}
+
+.hide-div {
+    display: none;
+}
