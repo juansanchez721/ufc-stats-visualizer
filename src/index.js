@@ -1,5 +1,8 @@
 import "./styles/index.scss";
 import "./styles/reset.scss"
+// import * as WebScrap from './scripts/webscraper'
+const nah = require('./scripts/webscraper')
+
 import Card from './scripts/card'
 // const Card = require('./scripts/card');
 
@@ -30,19 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
     for(let i = 0; i< yo.length; i++) {
         yo[i].addEventListener("click", () => flipCard(yo[i].id, i))
     }
-    
-    axios.get(`/rankings`)
-    .then((response) => {
-        debugger
-        const rankings = response.data.rankings
-        console.log(rankings); 
+    nah.getImgURL();
 
-        getRankings(rankings)
-    })
-    .catch(function (error) {
-        debugger
-        console.log(error.response);
-    })
+    // axios.get(`/rankings`)
+    // .then((response) => {
+    //     debugger
+    //     const rankings = response.data.rankings
+    //     // console.log(rankings); 
+
+    //     getRankings(rankings)
+    // })
+    // .catch(function (error) {
+    //     debugger
+    //     console.log(error.response);
+    // })
 
     // let query = "grace hopper";
     // axios.get(`/search?string=${query}`)
@@ -82,6 +86,7 @@ function getRankings(rankings) {
 
 function getFighters(competitors) {
     debugger 
+    // yo.getImgURL();
     cards = {}
     console.log(cards)
     let fighters = competitors.split("|")
@@ -193,16 +198,16 @@ function fighterInfo(id, fighterId) {
     // let isbn = '0201558025';
   // debugger
   console.log("api called again")
-  axios.get(`/fighters/${fighterId}`)
-  .then((response) => {
-      debugger
-      console.log(response.data); 
-      cards[id].fighterObject = response.data
-      addFlippedInfo(id)
-  })
-  .catch(function (error) {
-      debugger
-      console.log(error.response);
-  });
+//   axios.get(`/fighters/${fighterId}`)
+//   .then((response) => {
+//       debugger
+//       console.log(response.data); 
+//       cards[id].fighterObject = response.data
+//       addFlippedInfo(id)
+//   })
+//   .catch(function (error) {
+//       debugger
+//       console.log(error.response);
+//   });
 
 }
