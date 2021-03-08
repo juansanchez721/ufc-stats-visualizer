@@ -5,11 +5,11 @@ const axios = require('axios')
 // const cheerio = require('cheerio') 
 const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
-   function getImgURL(name='conor-mcgregor') {
+ async function getImgURL(name='conor-mcgregor') {
     debugger
 
     
-    return axios.get(`/fighters/image/${name}`)
+    return await axios.get(`/fighters/image/${name}`)
     .then(res =>{
         // console.log(res.data.chicken)
 

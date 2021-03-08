@@ -29,24 +29,24 @@ import Card from './scripts/card'
 const axios = require('axios');
 
 document.addEventListener('DOMContentLoaded', () => {
-    let yo = document.getElementsByClassName('each-fighter')
-    for(let i = 0; i< yo.length; i++) {
-        yo[i].addEventListener("click", () => flipCard(yo[i].id, i))
-    }
-    nah.getImgURL();
+    // let yo = document.getElementsByClassName('each-fighter')
+    // for(let i = 0; i< yo.length; i++) {
+    //     yo[i].addEventListener("click", () => flipCard(yo[i].id, i))
+    // }
+    // nah.getImgURL();
 
-    // axios.get(`/rankings`)
-    // .then((response) => {
-    //     debugger
-    //     const rankings = response.data.rankings
-    //     // console.log(rankings); 
+    axios.get(`/rankings`)
+    .then((response) => {
+        debugger
+        const rankings = response.data.rankings
+        // console.log(rankings); 
 
-    //     getRankings(rankings)
-    // })
-    // .catch(function (error) {
-    //     debugger
-    //     console.log(error.response);
-    // })
+        getRankings(rankings)
+    })
+    .catch(function (error) {
+        debugger
+        console.log(error.response);
+    })
 
     // let query = "grace hopper";
     // axios.get(`/search?string=${query}`)
@@ -90,19 +90,28 @@ function getFighters(competitors) {
     cards = {}
     console.log(cards)
     let fighters = competitors.split("|")
+    fighters.pop()
     let athletes = fighters.map((fighter) => {
         return fighter.split(",").filter(item => item !== "")
     })
 
+    let promises = []
     let fightfight = athletes.map((fighter, i) => { //check here to remove last undefined "athlete"
+        // while ( i < athletes.length-1){
+            let name = fighter[2].slice(1) + "-" + fighter[1]
+            
+            promises.push(nah.getImgURL(name))
+
             return {
                 id: fighter[0],
-                name: fighter[2] + " " + fighter[1],
-                abrev: fighter[3]
+                name,
+                abrev: fighter[3],
             }
+        // }
     })
-
     console.log(fightfight)
+
+    Promise.all(promises).then(val => console.log(val))
 
     let dContainer = document.getElementById("data-container")
     dContainer.innerHTML = '';
@@ -115,6 +124,7 @@ function getFighters(competitors) {
                 
                 var fighterImg = document.createElement("div") //div to append img to
                 fighterImg.setAttribute("id", `${ i === 0 ? "champ-img" : "fighter-img"}`)
+                fighterImg.style.backgroundImage = 'url(`${fighter.image}`)';
 
                 var fighterInfo = document.createElement("div") //div to append text/data to
                 fighterInfo.setAttribute("id", "fighter-info")

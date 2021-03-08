@@ -41,7 +41,7 @@ app.get('/', (request, res) => {
   res.sendFile(path.join(__dirname, './dist/index.html'))
 })
 
-app.get(`/fighters/image/:name`,  (request, response) => {
+app.get(`/fighters/image/:name`, async (request, response) => {
   console.log("inside bruh")
   axios.get(`https://www.ufc.com/athlete/${request.params.name}`)
   .then( data => {
