@@ -88,11 +88,12 @@ function getRankings(rankings) {
 
 const getFighters = async (competitors) => {
     debugger 
-    // yo.getImgURL();
+
     cards = {}
-    // console.log(cards)
+
     let fighters = competitors.split("|")
     fighters.pop()
+    
     let athletes = fighters.map((fighter) => {
         return fighter.split(",").filter(item => item !== "")
     })
@@ -100,8 +101,8 @@ const getFighters = async (competitors) => {
     let promises = []
     let fightfight = athletes.map((fighter, i) => { //check here to remove last undefined "athlete"
         // while ( i < athletes.length-1){
+            // let firstName = fighter[2].split(" ")[1]
             let name = fighter[2].slice(1) + "-" + fighter[1]
-            
             // promises.push(nah.getImgURL(name))
             
             return {
@@ -118,9 +119,28 @@ const getFighters = async (competitors) => {
         // fightfight[0]['image']= immm
         // console.log(fightfight)
 
-        await getImage(fightfight)
+         getImage(fightfight)
     // Promise.all(promises).then(val => console.log(val))
         console.log(fightfight)
+    
+
+}
+
+async function getImage(fightfight) {
+    let tempName=""
+    for(let i = 0; i < fightfight.length; i++ ){
+
+        tempName= fightfight[i].name.split(" ").join("-")
+
+        
+        fightfight[i]['image']= await nah.getImgURL(tempName)
+        // console.log(fightfight[0].name)
+        // fightfight[i]['image']= immm
+        // console.log(fightfight)
+    }
+    console.log(fightfight)
+    // return fightfight
+
     let dContainer = document.getElementById("data-container")
     dContainer.innerHTML = '';
 
@@ -164,20 +184,6 @@ const getFighters = async (competitors) => {
                 })
                          
     })
-
-}
-
-async function getImage(fightfight) {
-
-    for(let i = 0; i < fightfight.length; i++ ){
-
-        fightfight[i]['image']= await nah.getImgURL(fightfight[i].name)
-        // console.log(fightfight[0].name)
-        // fightfight[i]['image']= immm
-        // console.log(fightfight)
-    }
-
-    // return fightfight
 }
 
 

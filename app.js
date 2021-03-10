@@ -50,8 +50,8 @@ app.get(`/fighters/image/:name`, async (request, response) => {
     return response.json(data.data)
 
   })
-  .catch((error) => {
-    response.send(error.stringify);
+  .catch(function (error) {
+    response.send(error.response);
 });
   // const image = await yo.getImgURL()
   
