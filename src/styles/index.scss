@@ -88,24 +88,32 @@ body {
 
 #fighter-img {
         background-color: maroon;
-        width: 250px;
+        width: 550px;
         height: 100%;
 }
 
 #champ-img {
     background-color: gold;
-    width: 250px;
+    width: 550px;
     height: 100%;
 }
 
 #fighter-info {
-    background-color: burlywood;
-    width: 250px;
+    font-size: 42px;
+    color: black;
+    width: 50px;
     height: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#fighter-info h1 {
+    margin-top: 15px;
+    font-size: 60px;
+    writing-mode: vertical-rl;
+
 }
 
 .flip-div {

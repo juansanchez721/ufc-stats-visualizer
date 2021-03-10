@@ -16,10 +16,11 @@ const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
     const $ = cheerio.load(res.data)
     const image = $('div.c-bio__image > img')
     
-    console.log(image[0].attribs.src)
+    // console.log(image[0].attribs.src)
     return image[0].attribs.src
 
     })
+    .catch(error => console.log(error))
     debugger
     // console.log(data)
     // const $ = cheerio.load(data)

@@ -1,5 +1,7 @@
 import "./styles/index.scss";
 import "./styles/reset.scss"
+require('babel-polyfill')
+
 // import * as WebScrap from './scripts/webscraper'
 const nah = require('./scripts/webscraper')
 
@@ -84,11 +86,11 @@ function getRankings(rankings) {
 }
 
 
-function getFighters(competitors) {
+const getFighters = async (competitors) => {
     debugger 
     // yo.getImgURL();
     cards = {}
-    console.log(cards)
+    // console.log(cards)
     let fighters = competitors.split("|")
     fighters.pop()
     let athletes = fighters.map((fighter) => {
@@ -100,19 +102,25 @@ function getFighters(competitors) {
         // while ( i < athletes.length-1){
             let name = fighter[2].slice(1) + "-" + fighter[1]
             
-            promises.push(nah.getImgURL(name))
-
+            // promises.push(nah.getImgURL(name))
+            
             return {
                 id: fighter[0],
                 name,
                 abrev: fighter[3],
+                // imange: immm
             }
-        // }
-    })
-    console.log(fightfight)
+            // }
+        })
 
-    Promise.all(promises).then(val => console.log(val))
+        // let immm = await nah.getImgURL(fightfight[0].name)
+        // console.log(fightfight[0].name)
+        // fightfight[0]['image']= immm
+        // console.log(fightfight)
 
+        await getImage(fightfight)
+    // Promise.all(promises).then(val => console.log(val))
+        console.log(fightfight)
     let dContainer = document.getElementById("data-container")
     dContainer.innerHTML = '';
 
@@ -124,21 +132,21 @@ function getFighters(competitors) {
                 
                 var fighterImg = document.createElement("div") //div to append img to
                 fighterImg.setAttribute("id", `${ i === 0 ? "champ-img" : "fighter-img"}`)
-                fighterImg.style.backgroundImage = 'url(`${fighter.image}`)';
+                fighterImg.style.backgroundImage = `url(${fighter.image})`;
 
                 var fighterInfo = document.createElement("div") //div to append text/data to
                 fighterInfo.setAttribute("id", "fighter-info")
 
                 
                 let name = fighter.name.split(", ").reverse().join(" ") //flip name around
-                let position = i === 0 ? "Champion" : i;  //if position is 0, then athlete is current champion if division
+                let position = i === 0 ? "C" : i;  //if position is 0, then athlete is current champion if division
                 // var text = document.createTextNode(`${name}, ${fighter.id},  rank: ${position}`)
                 
-                let rank = document.createElement("h1")
+                let rank = document.createElement("h2")
                 rank.textContent = `${position}`
 
                 let fighterName = document.createElement("h1")
-                fighterName.textContent = `${name}`
+                fighterName.textContent = `${name.split("-")[1].toUpperCase()}`
 
                 fighterInfo.appendChild(rank)
                 fighterInfo.appendChild(fighterName)
@@ -157,6 +165,19 @@ function getFighters(competitors) {
                          
     })
 
+}
+
+async function getImage(fightfight) {
+
+    for(let i = 0; i < fightfight.length; i++ ){
+
+        fightfight[i]['image']= await nah.getImgURL(fightfight[i].name)
+        // console.log(fightfight[0].name)
+        // fightfight[i]['image']= immm
+        // console.log(fightfight)
+    }
+
+    // return fightfight
 }
 
 
