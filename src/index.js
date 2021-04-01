@@ -41,8 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then((response) => {
         debugger
         const rankings = response.data.rankings
-        // console.log(rankings); 
-
         getRankings(rankings)
     })
     .catch(function (error) {
@@ -61,67 +59,67 @@ document.addEventListener('DOMContentLoaded', () => {
     
 })
 
+let testobject = {}
+let cards = {}
 function getRankings(rankings) {
 
     // var mainContainer = document.getElementById("navbar");
     let dropdown = document.getElementById("weight-classes")
+    // console.log(rankings)
     // dropdown.setAttribute("id", "weight-classes")
     for (var i = 0; i < rankings.length; i++) {
-        // console.log(response.data.rankings.length)
-        let division = rankings[i].name.split("_").join(" ")
-        // rankings[0].competitor_rankings[0].competitor.name
-        let competitors = rankings[i].competitor_rankings.map(rank => {
-            return rank.competitor 
-        })
-        let info = []
-        competitors.forEach(fighter => {
-                info.push([Object.values(fighter), "|"]) 
-            }   
-            )
-                dropdown.appendChild(new Option(`${division}`, `${info}` ));
+
+        let division = rankings[i].name.split("_").join(" ") //weight class name
+        // console.log(division)
+        let competitorArray = Object.values(rankings[i].competitor_rankings)
+        testobject[division]= competitorArray
+        // console.log(competitorArray)
+        // let competitors = rankings[i].competitor_rankings.map(rank => { //get fighters for this ranking
+        //     return rank.competitor 
+        // })
+        // console.log(competitors)
+
+        // let info = []
+        // competitors.forEach(fighter => {
+        //     // console.log(fighter.name)
+        //         info.push(fighter.name) //names only
+        //     }   
+        //     )
+            // console.log(info)    
+                dropdown.appendChild(new Option(`${division}`, `${division}` ));
     }
+    console.log(testobject)
   
             dropdown.addEventListener('change', (e) => getFighters(e.target.value))
             // mainContainer.append(dropdown)
 }
 
 
-const getFighters = async (competitors) => {
-    debugger 
-
+const getFighters = async (division) => {
     cards = {}
-
-    let fighters = competitors.split("|")
-    fighters.pop()
+    debugger 
+    let names = []
+    testobject[division].forEach((fighter, i) => {
+        if (i < 11) names.push(fighter.competitor.name)
+    })
     
-    let athletes = fighters.map((fighter) => {
-        return fighter.split(",").filter(item => item !== "")
+    let newNames = names.map(name => {
+        return name.split(", ")
     })
 
-    let promises = []
-    let fightfight = athletes.map((fighter, i) => { //check here to remove last undefined "athlete"
-        // while ( i < athletes.length-1){
-            // let firstName = fighter[2].split(" ")[1]
-            let name = fighter[2].slice(1) + "-" + fighter[1]
-            // promises.push(nah.getImgURL(name))
-            
-            return {
-                id: fighter[0],
-                name,
-                abrev: fighter[3],
-                // imange: immm
-            }
-            // }
-        })
+    console.log(newNames)
+    newNames = newNames.forEach((name, i) =>{
+        //  let temp = name.replace(" ", "-")
+        let temp = name.reverse()
+        let firstname = temp[0].split(" ")[0]
+         cards[i]= {
+             'name': firstname + "-" + temp[1].replace(" ","-")
+         }
+    })
+    console.log(cards)
 
-        // let immm = await nah.getImgURL(fightfight[0].name)
-        // console.log(fightfight[0].name)
-        // fightfight[0]['image']= immm
+         getImage(Object.keys(cards))
         // console.log(fightfight)
-
-         getImage(fightfight)
-    // Promise.all(promises).then(val => console.log(val))
-        console.log(fightfight)
     
 
 }
@@ -129,22 +127,16 @@ const getFighters = async (competitors) => {
 async function getImage(fightfight) {
     let tempName=""
     for(let i = 0; i < fightfight.length; i++ ){
-
-        tempName= fightfight[i].name.split(" ").join("-")
-
         
-        fightfight[i]['image']= await nah.getImgURL(tempName)
-        // console.log(fightfight[0].name)
-        // fightfight[i]['image']= immm
-        // console.log(fightfight)
+        cards[i]['image']= await nah.getImgURL(cards[i].name)
     }
-    console.log(fightfight)
+    // console.log(cards)
     // return fightfight
 
     let dContainer = document.getElementById("data-container")
     dContainer.innerHTML = '';
 
-    fightfight.forEach((fighter, i) => {
+    Object.values(cards).forEach((fighter, i) => {
 
                 var fightStats = document.createElement("div") //main div to append things to
                 fightStats.setAttribute("id", `each-fighter-${i}` )
@@ -158,7 +150,7 @@ async function getImage(fightfight) {
                 fighterInfo.setAttribute("id", "fighter-info")
 
                 
-                let name = fighter.name.split(", ").reverse().join(" ") //flip name around
+                // let name = fighter.name.split(", ").reverse().join(" ") //flip name around
                 let position = i === 0 ? "C" : i;  //if position is 0, then athlete is current champion if division
                 // var text = document.createTextNode(`${name}, ${fighter.id},  rank: ${position}`)
                 
@@ -166,7 +158,7 @@ async function getImage(fightfight) {
                 rank.textContent = `${position}`
 
                 let fighterName = document.createElement("h1")
-                fighterName.textContent = `${name.split("-")[1].toUpperCase()}`
+                fighterName.textContent = `${fighter.name}`
 
                 fighterInfo.appendChild(rank)
                 fighterInfo.appendChild(fighterName)
@@ -194,7 +186,7 @@ function addFlippedInfo(id) {
     flip.innerHTML = `${cards[id].fighterObject.info.nickname}`
 }
 
-let cards = {}
+// let cards = {}
 function flipCard(id, fighterId) {
     console.log(cards)
     if(!cards[id]) {
