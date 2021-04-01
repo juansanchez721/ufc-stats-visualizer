@@ -12,13 +12,16 @@ const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
     switch (name) {
         case "Daniel-Hooker":
             nameURL = "Dan-Hooker"
+            break;
         case "Geoffery-Neol":
             nameURL = "Geoff-Neal"
+            break;
         case "Alex-Volkanovski":
             nameURL = "Alexander-Volkanovski"
+            break;
         case "Chan-Jung":
             nameURL = "Chan-sung-Jung"
-            // break;
+            break;
        
     }
 
