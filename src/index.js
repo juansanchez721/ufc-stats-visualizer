@@ -158,7 +158,7 @@ async function getImage(fightfight) {
                 rank.textContent = `${position}`
 
                 let fighterName = document.createElement("h1")
-                fighterName.textContent = `${fighter.name}`
+                fighterName.textContent = `${fighter.name}` 
 
                 fighterInfo.appendChild(rank)
                 fighterInfo.appendChild(fighterName)
