@@ -10,16 +10,16 @@ const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
     let nameURL = name
     switch (name) {
-        case "Daniel-Hooker":
+        case "DANIEL-HOOKER":
             nameURL = "Dan-Hooker"
             break;
-        case "Geoffery-Neol":
+        case "GEOFFERY-NEAL":
             nameURL = "Geoff-Neal"
             break;
-        case "Alex-Volkanovski":
+        case "ALEX-VOLKANOVSKI":
             nameURL = "Alexander-Volkanovski"
             break;
-        case "Chan-Jung":
+        case "CHAN-JUNG":
             nameURL = "Chan-sung-Jung"
             break;
        

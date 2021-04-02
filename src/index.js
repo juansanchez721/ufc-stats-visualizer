@@ -113,7 +113,7 @@ const getFighters = async (division) => {
         let temp = name.reverse()
         let firstname = temp[0].split(" ")[0]
          cards[i]= {
-             'name': firstname + "-" + temp[1].replace(" ","-")
+             'name': (firstname + "-" + temp[1].replace(" ","-")).toUpperCase()
          }
     })
     console.log(cards)
@@ -126,12 +126,14 @@ const getFighters = async (division) => {
 
 async function getImage(fightfight) {
     let tempName=""
+    document.getElementById('loading').style.display = "block"
     for(let i = 0; i < fightfight.length; i++ ){
         
         cards[i]['image']= await nah.getImgURL(cards[i].name)
     }
     // console.log(cards)
     // return fightfight
+    document.getElementById('loading').style.display = "none"
 
     let dContainer = document.getElementById("data-container")
     dContainer.innerHTML = '';
@@ -158,7 +160,7 @@ async function getImage(fightfight) {
                 rank.textContent = `${position}`
 
                 let fighterName = document.createElement("h1")
-                fighterName.textContent = `${fighter.name}` 
+                fighterName.textContent = `${fighter.name.split(/-(.+)/)[1]}` 
 
                 fighterInfo.appendChild(rank)
                 fighterInfo.appendChild(fighterName)
