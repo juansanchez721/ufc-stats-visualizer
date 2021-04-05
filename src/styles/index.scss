@@ -77,7 +77,7 @@ body {
 #data-container > div {
     background-color: white;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     height: 700px;
     margin: 5px;
     width: 500px;
@@ -87,15 +87,37 @@ body {
 }
 
 #fighter-img {
-        background-color: maroon;
+        background-color: rgb(120, 1, 16);;
         width: 550px;
         height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+
+        border-radius: 10px;
+
+        img {
+            height: 98%;
+        }
 }
 
 #champ-img {
     background-color: gold;
     width: 550px;
     height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;width: 550px;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+
+    img {
+        height: 98%;
+    }
 }
 
 #fighter-info {

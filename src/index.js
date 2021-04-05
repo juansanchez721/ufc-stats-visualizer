@@ -107,7 +107,7 @@ const getFighters = async (division) => {
         return name.split(", ")
     })
 
-    console.log(newNames)
+    // console.log(newNames)
     newNames = newNames.forEach((name, i) =>{
         //  let temp = name.replace(" ", "-")
         let temp = name.reverse()
@@ -116,7 +116,7 @@ const getFighters = async (division) => {
              'name': (firstname + "-" + temp[1].replace(" ","-")).toUpperCase()
          }
     })
-    console.log(cards)
+    // console.log(cards)
 
          getImage(Object.keys(cards))
         // console.log(fightfight)
@@ -141,12 +141,16 @@ async function getImage(fightfight) {
     Object.values(cards).forEach((fighter, i) => {
 
                 var fightStats = document.createElement("div") //main div to append things to
-                fightStats.setAttribute("id", `each-fighter-${i}` )
+                fightStats.setAttribute("id", `${i}` )
                 fightStats.classList.add("each-fighter");
                 
                 var fighterImg = document.createElement("div") //div to append img to
                 fighterImg.setAttribute("id", `${ i === 0 ? "champ-img" : "fighter-img"}`)
-                fighterImg.style.backgroundImage = `url(${fighter.image})`;
+
+                var Img = document.createElement("img") //div to append img to
+                Img.src = `${fighter.image}`;
+
+                fighterImg.appendChild(Img)
 
                 var fighterInfo = document.createElement("div") //div to append text/data to
                 fighterInfo.setAttribute("id", "fighter-info")
@@ -174,7 +178,7 @@ async function getImage(fightfight) {
 
                 dContainer.appendChild(fightStats)
                 fightStats.addEventListener("click", (event) => {
-                    flipCard(`each-fighter-${i}`, fighter.id)
+                    flipCard(`${i}`)
                 })
                          
     })
@@ -189,50 +193,51 @@ function addFlippedInfo(id) {
 }
 
 // let cards = {}
-function flipCard(id, fighterId) {
+function flipCard(i) {
     console.log(cards)
-    if(!cards[id]) {
-        cards[id] = {
-          degree:0,
-          fighterObject:fighterInfo(id, fighterId)  
+    if(!cards[i].stats) {
+        cards[i].stats = {
+            degree:0,
+            nickname:fighterInfo(cards[i].name)  
         } 
         debugger
     }
     // console.log(k)
-
-    var card = document.getElementById(id);
-    let flip = document.getElementById(id).children[2] //grab the flip div
+    
+    var card = document.getElementById(i);
+    let flip = document.getElementById(i).children[2] //grab the flip div
     debugger
     console.log(flip)
-    if (cards[id].degree !== 0)  {
-        cards[id].degree -= 180;
+    if (cards[i].stats.degree !== 0)  {
+        cards[i].stats.degree -= 180;
         // flip.style.display = "none"
         // card.style.transitionDuration = "0.9s"
         flip.classList.remove("flip-div")
         flip.classList.add("hide-div")
         // flip.innerHTML = ""
     } else {
-        cards[id].degree += 180;
+        cards[i].stats.degree += 180;
         flip.classList.remove("hide-div")
         flip.classList.add("flip-div")
         debugger
         // document.getElementById("flip-div").style.display = "block"
     }
-
-    card.style.transform = "rotatey(" + cards[id].degree + "deg)";
+    
+    card.style.transform = "rotatey(" + cards[i].stats.degree + "deg)";
     card.style.transitionDuration = "0.9s"
     // console.log(cards)
     debugger
 }
 
-function fighterInfo(id, fighterId) {
+function fighterInfo(name) {
     // let isbn = '0201558025';
-  // debugger
-  console.log("api called again")
-//   axios.get(`/fighters/${fighterId}`)
-//   .then((response) => {
-//       debugger
-//       console.log(response.data); 
+    // debugger
+    console.log("api called again")
+    nah.getStats(name)
+    //   axios.get(`/fighters/${fighterId}`)
+    //   .then((response) => {
+        //       debugger
+        //       console.log(response.data); 
 //       cards[id].fighterObject = response.data
 //       addFlippedInfo(id)
 //   })

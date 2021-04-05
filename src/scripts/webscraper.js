@@ -33,30 +33,40 @@ const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
     const $ = cheerio.load(res.data)
     const image = $('div.c-bio__image > img')
     
-    // console.log(image[0].attribs.src)
+    // console.log(image)
     return image[0].attribs.src
 
     })
     .catch(error => null)
-    debugger
-    // console.log(data)
-    // const $ = cheerio.load(data)
-    // const image = $('div.c-bio__image > img')
-    
-    // const yo = image.find.img
-    // console.log(image[0].attribs.src)
-    // return image[0].attribs.src
-
-    // const { data } = await axios.get(page_url)
-    debugger
-    // const $ = cheerio.load(data)
-    // const image = $('div.c-bio__image > img')
-    
-    // const yo = image.find.img
-    // console.log(image[0].attribs.src)
-    // return image[0].attribs.src
 }
 
 
+async function getStats(name='conor-mcgregor') {
+
+    return await axios.get(`/fighters/image/${name}`)
+    .then(res =>{
+        // console.log(res.data)
+
+    const $ = cheerio.load(res.data)
+
+    // const nicknameDiv = $('div.c-hero--full__headline-prefix')
+    // const nickname = nicknameDiv.find('div')
+    // console.log(nickname[0].children[0])
+    // return nickname[0].children[0]
+    
+    const statsDiv =$('dl.c-overlap__stats')
+        console.log(statsDiv[0].children)
+        console.log(statsDiv[1].children)
+
+})
+    .catch(error =>{
+
+        return null
+    }
+        )
+
+
+}
 
 exports.getImgURL = getImgURL;
+exports.getStats = getStats;
