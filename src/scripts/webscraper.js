@@ -54,9 +54,14 @@ async function getStats(name='conor-mcgregor') {
     // console.log(nickname[0].children[0])
     // return nickname[0].children[0]
     
-    const statsDiv =$('dl.c-overlap__stats')
-        console.log(statsDiv[0].children)
-        console.log(statsDiv[1].children)
+    const statsDiv =$('dd.c-overlap__stats-value')
+    // console.log(statsDiv.find('dd'))
+        // console.log(statsDiv[0].children)
+        console.log(statsDiv[0].children[0].data)
+        console.log(statsDiv[1].children[0].data)
+        console.log(statsDiv[2].children.length ? statsDiv[2].children[0].data :  null)
+        console.log(statsDiv[3].children[0].data)
+
 
 })
     .catch(error =>{
