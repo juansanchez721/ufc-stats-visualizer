@@ -193,47 +193,58 @@ function addFlippedInfo(id) {
 }
 
 // let cards = {}
-function flipCard(i) {
-    console.log(cards)
-    if(!cards[i].stats) {
-        cards[i].stats = {
-            degree:0,
-            nickname:fighterInfo(cards[i].name)  
-        } 
+async function flipCard(i) {
+    // console.log(cards)
+
+    const { 
+         strikesLanded, 
+        strikesAttempted, 
+        takedownsLanded,
+        takedownsAttempted,
+    nickname } = await nah.getStats(cards[i].name)  
+
+    if(!cards[i].degree) {
+        cards[i].degree= 0,
+        cards[i].strikesLanded = strikesLanded
+        cards[i].strikesAttempted = strikesAttempted
+        cards[i].takedownsLanded = takedownsLanded
+        cards[i].takedownsAttempted = takedownsAttempted 
+        cards[i].nickname= nickname
+        }
         debugger
-    }
-    // console.log(k)
+    
+    // console.log(cards[i])
     
     var card = document.getElementById(i);
     let flip = document.getElementById(i).children[2] //grab the flip div
     debugger
     console.log(flip)
-    if (cards[i].stats.degree !== 0)  {
-        cards[i].stats.degree -= 180;
+    if (cards[i].degree !== 0)  {
+        cards[i].degree -= 180;
         // flip.style.display = "none"
         // card.style.transitionDuration = "0.9s"
         flip.classList.remove("flip-div")
         flip.classList.add("hide-div")
         // flip.innerHTML = ""
     } else {
-        cards[i].stats.degree += 180;
+        cards[i].degree += 180;
         flip.classList.remove("hide-div")
         flip.classList.add("flip-div")
         debugger
         // document.getElementById("flip-div").style.display = "block"
     }
     
-    card.style.transform = "rotatey(" + cards[i].stats.degree + "deg)";
+    card.style.transform = "rotatey(" + cards[i].degree + "deg)";
     card.style.transitionDuration = "0.9s"
     // console.log(cards)
     debugger
 }
 
-function fighterInfo(name) {
+async function fighterInfo(name) {
     // let isbn = '0201558025';
     // debugger
     console.log("api called again")
-    nah.getStats(name)
+    return await nah.getStats(name)
     //   axios.get(`/fighters/${fighterId}`)
     //   .then((response) => {
         //       debugger

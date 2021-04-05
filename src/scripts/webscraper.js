@@ -43,26 +43,52 @@ const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
 async function getStats(name='conor-mcgregor') {
 
-    return await axios.get(`/fighters/image/${name}`)
+    let nameURL = name
+    switch (name) {
+        case "DANIEL-HOOKER":
+            nameURL = "Dan-Hooker"
+            break;
+        case "GEOFFERY-NEAL":
+            nameURL = "Geoff-Neal"
+            break;
+        case "ALEX-VOLKANOVSKI":
+            nameURL = "Alexander-Volkanovski"
+            break;
+        case "CHAN-JUNG":
+            nameURL = "Chan-sung-Jung"
+            break;
+       
+    }
+
+    return await axios.get(`/fighters/image/${nameURL}`)
     .then(res =>{
-        // console.log(res.data)
 
     const $ = cheerio.load(res.data)
 
-    // const nicknameDiv = $('div.c-hero--full__headline-prefix')
-    // const nickname = nicknameDiv.find('div')
-    // console.log(nickname[0].children[0])
-    // return nickname[0].children[0]
-    
+    const nicknameDiv = $('div.c-hero--full__headline-prefix')
     const statsDiv =$('dd.c-overlap__stats-value')
-    // console.log(statsDiv.find('dd'))
-        // console.log(statsDiv[0].children)
-        console.log(statsDiv[0].children[0].data)
-        console.log(statsDiv[1].children[0].data)
-        console.log(statsDiv[2].children.length ? statsDiv[2].children[0].data :  null)
-        console.log(statsDiv[3].children[0].data)
 
+    let nicknameText = ""
+    if (nicknameDiv[0].children.length){
+        debugger
+        const nickname = nicknameDiv.find('div')
+        debugger
+        nicknameText = nickname[0].children[0].data.split('"')[1]
+        console.log(nicknameText)
+      debugger  
+    } 
 
+        debugger
+     let strikes = {
+            nickname: nicknameText ,
+            strikesLanded: statsDiv[0] && statsDiv[0].children.length ? statsDiv[0].children[0].data : 0,
+            strikesAttempted: statsDiv[1] && statsDiv[1].children.length ? statsDiv[1].children[0].data : 0,
+            takedownsLanded: statsDiv[2] && statsDiv[2].children.length ? statsDiv[2].children[0].data :  0,
+            takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : 0
+        }
+        debugger
+        console.log(strikes)
+        return strikes
 })
     .catch(error =>{
 
