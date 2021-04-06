@@ -31,6 +31,33 @@ import Card from './scripts/card'
 const axios = require('axios');
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    
+// const firstdata = 
+// [{ 
+//     name: "strikesLanded",
+//     value: 60
+// },
+//   {
+//       name: "strikesAttempted",
+//       value: 125
+//   },
+    
+// ]
+
+
+// const seconddata = [
+//     {
+//         name: "takedownsLanded",
+//         value: 10
+//     },
+//     {
+//         name: 'takedownsAttempted',
+//         value: 13
+//     }   
+// ]
+    // createCharts(firstdata, seconddata)
+
     // let yo = document.getElementsByClassName('each-fighter')
     // for(let i = 0; i< yo.length; i++) {
     //     yo[i].addEventListener("click", () => flipCard(yo[i].id, i))
@@ -58,6 +85,79 @@ document.addEventListener('DOMContentLoaded', () => {
     // });
     
 })
+
+function createCharts(firstdata, seconddata, i)  {
+    var div = d3.select(`#main-div-${i}`).append("div")
+    .attr("class", "tooltip-donut")
+    .style("opacity", 0);
+    console.log(i)
+
+    const colors = d3.scaleOrdinal(['red', 'white'])
+    const radius = 75;
+    const path = d3.arc().outerRadius(radius).innerRadius(50)
+    
+    const strikespie = d3.pie().value(d => d.value)
+    const takedownpie = d3.pie().value(d => d.value)
+
+
+    d3.select(`#main-div-${i}`)
+    .append("svg")
+    // .attr('width', 400)
+    // .attr('height', 400)
+    .append('g').attr('transform', `translate(${Math.floor(400/4)}, ${Math.floor(400/4)})` )
+    .selectAll('.arc').data(strikespie(firstdata)).enter().append('g').attr('class', 'arc')
+    .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
+    .on('mouseover', function (d, i) {
+        // console.log(d.target.__data__.value)
+        d3.select(this).transition()
+             .duration('50')
+             .attr('opacity', '.85')
+
+             div.transition()
+               .duration(50)
+               .style("opacity", 1);
+             div.html(d.target.__data__.value)
+            //  .style("left", (d3.event.pageX + 10) + "px")
+            //    .style("top", (d3.event.pageY - 15) + "px");
+    })
+   .on('mouseout', function (d, i) {
+        d3.select(this).transition()
+             .duration('50')
+             .attr('opacity', '1');
+
+             div.transition()
+               .duration('50')
+               .style("opacity", 0);
+   })
+
+    d3.select(`#main-div-${i}`)
+    .append("svg")
+    // .attr('width', 400)
+    // .attr('height', 400)
+    .append('g').attr('transform', `translate(${Math.floor(600/4)}, ${Math.floor(600/4)})` )
+    .selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
+    .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
+
+// const label = d3.arc().outerRadius(radius).innerRadius(100)
+// strikesPies.append('text')
+// .attr('transform', function(d){
+//   return "translate(" + label.centroid(d) + ")"
+// }) 
+// .text(d => d.data.name)
+
+// const secondPie = svg.append('g').attr('transform', `translate(${width/2}, ${Math.floor(height/2)})` )
+// const takedownpie = d3.pie().value(d => d.value)
+// const secondpath = d3.arc().outerRadius(radius).innerRadius(50)
+// const takedownPies = secondPie.selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
+// takedownPies.append('path').attr('d', secondpath).attr('fill', d => colors(d.data.value))
+
+// const secondlabel = d3.arc().outerRadius(radius).innerRadius(100)
+// takedownPies.append('text')
+// .attr('transform', function(d){
+//   return "translate(" + secondlabel.centroid(d) + ")"
+// }) 
+// .text(d => d.data.name)
+}
 
 let testobject = {}
 let cards = {}
@@ -171,16 +271,61 @@ async function getImage(fightfight) {
 
 function addFlippedInfo(i) {
     debugger
-    console.log(i)
+    // console.log(i)
     let flip = document.getElementById(i).children[2] //grab the flip div
     let nickname = document.createElement('h1')
     nickname.textContent = `${cards[i].nickname ? '"' + cards[i].nickname.toUpperCase() + '"' : cards[i].name.split(/-(.+)/)[1]  }`
 
     let mainDiv = document.createElement('div')
     mainDiv.classList.add("main-div-content");
+    mainDiv.setAttribute("id", `main-div-${i}`);
 
+    // let charts = document.createElement('svg')
+    // console.log(charts)
+    // mainDiv.appendChild(charts)
+    
     flip.appendChild(nickname)
     flip.appendChild(mainDiv)
+    // console.log(cards[i])
+    const { 
+        strikesAttempted, 
+        strikesLanded, 
+        takedownsLanded, 
+        takedownsAttempted } = cards[i]
+        // const firstdata = 
+        // [{ 
+            //     name: "strikesLanded",
+            //     value: 60
+            // },
+            //   {
+                //       name: "strikesAttempted",
+                //       value: 125
+                //   },
+                
+                // ]
+                let strikingData = [
+                    {
+                        name: 'Strikes Landed',
+                        value: strikesLanded
+                    },
+                    {
+                        name: 'Strikes Attempted',
+                        value: strikesAttempted
+                    }
+                ]
+                
+                let wrestlingData = [
+                    {
+                        name: 'Takedowns Landed',
+                        value: takedownsLanded
+                    },
+                    {
+                        name: 'Takedowns Attempted',
+                        value: takedownsAttempted
+                    }
+                ]
+                // console.log(, strikesLanded, takedownsLanded, takedownsAttempted)
+    createCharts(strikingData, wrestlingData, i)
 }
 
 // let cards = {}
@@ -251,3 +396,4 @@ async function fighterInfo(name) {
 //   });
 
 }
+

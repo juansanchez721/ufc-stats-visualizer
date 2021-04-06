@@ -158,9 +158,11 @@ body {
       margin: 20px;
   }
   .main-div-content{
-      background: cornflowerblue;
-      height: 100%;
-      width: 100%;
+    background: cornflowerblue;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -192,3 +194,20 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  svg {
+    background-color: navy;
+    width: 100%;
+  }
+
+  div.tooltip-donut {
+    position: absolute;
+    text-align: center;
+    padding: .5rem;
+    background: #FFFFFF;
+    color: #313639;
+    border: 1px solid #313639;
+    border-radius: 8px;
+    pointer-events: none;
+    font-size: 1.3rem;
+}
