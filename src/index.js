@@ -73,25 +73,12 @@ function getRankings(rankings) {
         // console.log(division)
         let competitorArray = Object.values(rankings[i].competitor_rankings)
         testobject[division]= competitorArray
-        // console.log(competitorArray)
-        // let competitors = rankings[i].competitor_rankings.map(rank => { //get fighters for this ranking
-        //     return rank.competitor 
-        // })
-        // console.log(competitors)
 
-        // let info = []
-        // competitors.forEach(fighter => {
-        //     // console.log(fighter.name)
-        //         info.push(fighter.name) //names only
-        //     }   
-        //     )
-            // console.log(info)    
-                dropdown.appendChild(new Option(`${division}`, `${division}` ));
+        dropdown.appendChild(new Option(`${division}`, `${division}` ));
     }
     console.log(testobject)
   
-            dropdown.addEventListener('change', (e) => getFighters(e.target.value))
-            // mainContainer.append(dropdown)
+    dropdown.addEventListener('change', (e) => getFighters(e.target.value))
 }
 
 
@@ -131,8 +118,7 @@ async function getImage(fightfight) {
         
         cards[i]['image']= await nah.getImgURL(cards[i].name)
     }
-    // console.log(cards)
-    // return fightfight
+    
     document.getElementById('loading').style.display = "none"
 
     let dContainer = document.getElementById("data-container")
@@ -156,9 +142,7 @@ async function getImage(fightfight) {
                 fighterInfo.setAttribute("id", "fighter-info")
 
                 
-                // let name = fighter.name.split(", ").reverse().join(" ") //flip name around
                 let position = i === 0 ? "C" : i;  //if position is 0, then athlete is current champion if division
-                // var text = document.createTextNode(`${name}, ${fighter.id},  rank: ${position}`)
                 
                 let rank = document.createElement("h2")
                 rank.textContent = `${position}`
@@ -185,17 +169,25 @@ async function getImage(fightfight) {
 }
 
 
-function addFlippedInfo(id) {
+function addFlippedInfo(i) {
     debugger
-    console.log(id)
-    let flip = document.getElementById(id).children[2] //grab the flip div
-    flip.innerHTML = `${cards[id].fighterObject.info.nickname}`
+    console.log(i)
+    let flip = document.getElementById(i).children[2] //grab the flip div
+    let nickname = document.createElement('h1')
+    nickname.textContent = `${cards[i].nickname ? '"' + cards[i].nickname.toUpperCase() + '"' : cards[i].name.split(/-(.+)/)[1]  }`
+
+    let mainDiv = document.createElement('div')
+    mainDiv.classList.add("main-div-content");
+
+    flip.appendChild(nickname)
+    flip.appendChild(mainDiv)
 }
 
 // let cards = {}
 async function flipCard(i) {
     // console.log(cards)
 
+    if(!cards[i].flipped) {
     const { 
          strikesLanded, 
         strikesAttempted, 
@@ -203,13 +195,14 @@ async function flipCard(i) {
         takedownsAttempted,
     nickname } = await nah.getStats(cards[i].name)  
 
-    if(!cards[i].degree) {
+        cards[i].flipped = true
         cards[i].degree= 0,
         cards[i].strikesLanded = strikesLanded
         cards[i].strikesAttempted = strikesAttempted
         cards[i].takedownsLanded = takedownsLanded
         cards[i].takedownsAttempted = takedownsAttempted 
         cards[i].nickname= nickname
+        addFlippedInfo(i)
         }
         debugger
     
