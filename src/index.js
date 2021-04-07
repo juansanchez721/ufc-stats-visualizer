@@ -107,7 +107,7 @@ function createCharts(firstdata, seconddata, i)  {
     .append("svg")
     // .attr('width', 400)
     // .attr('height', 400)
-    .append('g').attr('transform', `translate(${Math.floor(400/4)}, ${Math.floor(400/4)})` )
+    .append('g').attr('transform', `translate(${Math.floor(400/4)}, ${Math.floor(175/2)})` )
     .selectAll('.arc').data(strikespie(firstdata)).enter().append('g').attr('class', 'arc')
     .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
     .on('mouseover', function (d, i) {
@@ -137,7 +137,7 @@ function createCharts(firstdata, seconddata, i)  {
     .append("svg")
     // .attr('width', 400)
     // .attr('height', 400)
-    .append('g').attr('transform', `translate(${Math.floor(600/4)}, ${Math.floor(600/4)})` )
+    .append('g').attr('transform', `translate(${Math.floor(285)}, ${Math.floor(175/2)})` )
     .selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
     .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
 
@@ -292,53 +292,39 @@ function addFlippedInfo(element) {
     let mainDiv = document.createElement('div')
     mainDiv.classList.add("main-div-content");
     mainDiv.setAttribute("id", `main-div-${element.id}`);
-
-    // // let charts = document.createElement('svg')
-    // // console.log(charts)
-    // // mainDiv.appendChild(charts)
     
     cardBack.appendChild(nickname)
-    // element.appendChild(mainDiv)
+    cardBack.appendChild(mainDiv)
     // // console.log(cards[i])
-    // const { 
-    //     strikesAttempted, 
-    //     strikesLanded, 
-    //     takedownsLanded, 
-    //     takedownsAttempted } = cards[i]
-    //     // const firstdata = 
-    //     // [{ 
-    //         //     name: "strikesLanded",
-    //         //     value: 60
-    //         // },
-    //         //   {
-    //             //       name: "strikesAttempted",
-    //             //       value: 125
-    //             //   },
+    const { 
+        strikesAttempted, 
+        strikesLanded, 
+        takedownsLanded, 
+        takedownsAttempted } = cards[element.id]
+
+                let strikingData = [
+                    {
+                        name: 'Strikes Landed',
+                        value: strikesLanded
+                    },
+                    {
+                        name: 'Strikes Attempted',
+                        value: strikesAttempted
+                    }
+                ]
                 
-    //             // ]
-    //             let strikingData = [
-    //                 {
-    //                     name: 'Strikes Landed',
-    //                     value: strikesLanded
-    //                 },
-    //                 {
-    //                     name: 'Strikes Attempted',
-    //                     value: strikesAttempted
-    //                 }
-    //             ]
-                
-    //             let wrestlingData = [
-    //                 {
-    //                     name: 'Takedowns Landed',
-    //                     value: takedownsLanded
-    //                 },
-    //                 {
-    //                     name: 'Takedowns Attempted',
-    //                     value: takedownsAttempted
-    //                 }
-    //             ]
-    //             // console.log(, strikesLanded, takedownsLanded, takedownsAttempted)
-    // createCharts(strikingData, wrestlingData, i)
+                let wrestlingData = [
+                    {
+                        name: 'Takedowns Landed',
+                        value: takedownsLanded
+                    },
+                    {
+                        name: 'Takedowns Attempted',
+                        value: takedownsAttempted
+                    }
+                ]
+
+                createCharts(strikingData, wrestlingData, element.id)
 }
 
 // let cards = {}
@@ -363,33 +349,6 @@ async function flipCard(element) {
         cards[element.id].nickname= nickname
         addFlippedInfo(element)
         }
-    //     debugger
-    
-    // // console.log(cards[i])
-    
-    // var card = document.getElementById(i);
-    // let flip = document.getElementById(i).children[2] //grab the flip div
-    // debugger
-    // console.log(flip)
-    // // if (cards[i].degree !== 0)  {
-    // //     cards[i].degree -= 180;
-    // //     // flip.style.display = "none"
-    // //     // card.style.transitionDuration = "0.9s"
-    // //     flip.classList.remove("flip-div")
-    // //     flip.classList.add("hide-div")
-    // //     // flip.innerHTML = ""
-    // // } else {
-    // //     cards[i].degree += 180;
-    // //     flip.classList.remove("hide-div")
-    // //     flip.classList.add("flip-div")
-    // //     debugger
-    // //     // document.getElementById("flip-div").style.display = "block"
-    // // }
-    
-    // // card.style.transform = "rotatey(" + cards[i].degree + "deg)";
-    // // card.style.transitionDuration = "0.9s"
-    // // console.log(cards)
-    // debugger
 }
 
 async function fighterInfo(name) {
