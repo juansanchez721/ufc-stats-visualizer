@@ -211,3 +211,75 @@ body {
     pointer-events: none;
     font-size: 1.3rem;
 }
+
+.welcome-div {
+  background-color: maroon;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+
+  .card-info-holder {
+    background-color: gray;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    padding: 15px;
+    border-radius: 10px;
+    perspective: 600px;
+
+  }
+
+  .demo-card {
+    height: 200px;
+    width: 100px;
+    background-color: gold;
+    border-radius: 5px;
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  }
+
+  .card-front{
+    background-color: red;
+  }
+  .card-back{
+    background-color: blue;
+    transform: rotateY(180deg);
+  }
+
+  .demo-card.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 260px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .demo-info {
+    background-color: maroon;
+    height: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  i {
+    margin-right: 5px;
+  }
+}

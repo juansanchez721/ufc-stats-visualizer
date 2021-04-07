@@ -32,7 +32,10 @@ const axios = require('axios');
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    
+    var card = document.querySelector('.demo-card');
+card.addEventListener( 'click', function() {
+  card.classList.toggle('is-flipped');
+});
 // const firstdata = 
 // [{ 
 //     name: "strikesLanded",
@@ -64,16 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
     // nah.getImgURL();
 
-    axios.get(`/rankings`)
-    .then((response) => {
-        debugger
-        const rankings = response.data.rankings
-        getRankings(rankings)
-    })
-    .catch(function (error) {
-        debugger
-        console.log(error.response);
-    })
+    // axios.get(`/rankings`)
+    // .then((response) => {
+    //     debugger
+    //     const rankings = response.data.rankings
+    //     getRankings(rankings)
+    // })
+    // .catch(function (error) {
+    //     debugger
+    //     console.log(error.response);
+    // })
 
     // let query = "grace hopper";
     // axios.get(`/search?string=${query}`)
@@ -396,4 +399,5 @@ async function fighterInfo(name) {
 //   });
 
 }
+
 
