@@ -5,29 +5,6 @@ require("babel-polyfill");
 // import * as WebScrap from './scripts/webscraper'
 const nah = require("./scripts/webscraper");
 
-import Card from "./scripts/card";
-// const Card = require('./scripts/card');
-
-// function testfunction() {
-//     console.log("test message")
-// }
-
-// testfunction()
-
-// function getData() {
-//     fetch('http://api.sportradar.us/ufc/trial/v2/en/rankings.json?api_key=wjvfbsmrqxd6gfjgqu9mdkv3')
-//     .then(response => {
-//         return response.json()
-//     })
-//     .then(fighters => {
-//         fighters.rankings.forEach(element => {
-//             console.log(element.name);
-
-//         });
-//     })
-// }
-
-// getData();
 const axios = require("axios");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,14 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(error.response);
     });
 
-  // let query = "grace hopper";
-  // axios.get(`/search?string=${query}`)
-  // .then((response) => {
-  //     console.log(response);
-  // })
-  // .catch(function (error) {
-  //     console.log(error);
-  // });
 });
 
 function createCharts(firstdata, i, category) {
@@ -144,6 +113,12 @@ function createCharts(firstdata, i, category) {
     .text(function (d) {
       return d.name;
     });
+
+    legend.append("textspan")
+    .attr('x', 20)
+    .attr('y', 50)
+    .attr('font-size', '24px')
+    .text("Test")
 }
 
 let testobject = {};
@@ -241,9 +216,6 @@ async function getImage(fightfight) {
     fighterfront.appendChild(fighterImg);
     fighterfront.appendChild(fighterInfo);
 
-    // let flipped = document.createElement("div") //div to append text/data to
-    // fightStats.appendChild(flipped)
-
     fightStats.appendChild(fighterfront);
     fightStats.appendChild(fighterback);
     dContainer.appendChild(fightStats);
@@ -257,8 +229,6 @@ function addFlippedInfo(element) {
   debugger;
   // console.log(i)
   let cardBack = element.children[1]; //grab the flip div
-  // console.log(cardBack)
-  // console.log(element.id)
   let nickname = document.createElement("h1");
   nickname.textContent = `${
     cards[element.id].nickname
@@ -304,6 +274,13 @@ function addFlippedInfo(element) {
 
   createCharts(strikingData, element.id, "Striking")
   createCharts(wrestlingData, element.id, "Wrestling")
+
+  let bottom = document.createElement("div");
+  bottom.classList.add("rest-of-card");
+
+  cardBack.appendChild(bottom)
+
+
 }
 
 // let cards = {}
@@ -335,22 +312,4 @@ async function flipCard(element) {
     // console.log(cards[element.id]);
     addFlippedInfo(element);
   }
-}
-
-async function fighterInfo(name) {
-  // let isbn = '0201558025';
-  // debugger
-  console.log("api called again");
-  return await nah.getStats(name);
-  //   axios.get(`/fighters/${fighterId}`)
-  //   .then((response) => {
-  //       debugger
-  //       console.log(response.data);
-  //       cards[id].fighterObject = response.data
-  //       addFlippedInfo(id)
-  //   })
-  //   .catch(function (error) {
-  //       debugger
-  //       console.log(error.response);
-  //   });
 }
