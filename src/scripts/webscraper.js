@@ -70,7 +70,7 @@ async function getStats(name='conor-mcgregor') {
     const height = $("#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__info > div.c-bio__info-details > div:nth-child(4) > div:nth-child(2) > div.c-bio__text")
     const reach = $("#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__info > div.c-bio__info-details > div:nth-child(5) > div:nth-child(2) > div.c-bio__text")
     const record = $("#block-mainpagecontent > div > div > div.l-main__hero > div.c-hero--full > div.c-hero--full__container > div.c-hero--full__content.aos-init.aos-animate > div.c-hero__header")
-    console.log(record)
+    // console.log(record)
     // console.log(reach[0])
     // console.log(height[0].children[0].data)
     // console.log(reach[0].children[0].data)

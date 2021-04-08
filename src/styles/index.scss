@@ -193,7 +193,7 @@ body {
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 
   /* justify-content: center; */
 }
@@ -231,7 +231,7 @@ body {
 
 svg {
   background-color: salmon;
-  width: 100%;
+  width: 50%;
   height: 155px;
 }
 
