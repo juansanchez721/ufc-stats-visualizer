@@ -1,11 +1,11 @@
 import "./styles/index.scss";
-import "./styles/reset.scss"
-require('babel-polyfill')
+import "./styles/reset.scss";
+require("babel-polyfill");
 
 // import * as WebScrap from './scripts/webscraper'
-const nah = require('./scripts/webscraper')
+const nah = require("./scripts/webscraper");
 
-import Card from './scripts/card'
+import Card from "./scripts/card";
 // const Card = require('./scripts/card');
 
 // function testfunction() {
@@ -22,352 +22,332 @@ import Card from './scripts/card'
 //     .then(fighters => {
 //         fighters.rankings.forEach(element => {
 //             console.log(element.name);
-            
+
 //         });
 //     })
 // }
 
 // getData();
-const axios = require('axios');
+const axios = require("axios");
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+  var card = document.querySelector(".demo-card");
+  card.addEventListener("click", function () {
+    card.classList.toggle("is-flipped");
+  });
 
-    var card = document.querySelector('.demo-card');
-card.addEventListener( 'click', function() {
-  card.classList.toggle('is-flipped');
-});
-// const firstdata = 
-// [{ 
-//     name: "strikesLanded",
-//     value: 60
-// },
-//   {
-//       name: "strikesAttempted",
-//       value: 125
-//   },
-    
-// ]
-
-
-// const seconddata = [
-//     {
-//         name: "takedownsLanded",
-//         value: 10
-//     },
-//     {
-//         name: 'takedownsAttempted',
-//         value: 13
-//     }   
-// ]
-    // createCharts(firstdata, seconddata)
-
-    // let yo = document.getElementsByClassName('each-fighter')
-    // for(let i = 0; i< yo.length; i++) {
-    //     yo[i].addEventListener("click", () => flipCard(yo[i].id, i))
-    // }
-    // nah.getImgURL();
-
-    axios.get(`/rankings`)
+  axios
+    .get(`/rankings`)
     .then((response) => {
-        debugger
-        const rankings = response.data.rankings
-        getRankings(rankings)
+      debugger;
+      const rankings = response.data.rankings;
+      getRankings(rankings);
     })
     .catch(function (error) {
-        debugger
-        console.log(error.response);
-    })
+      debugger;
+      console.log(error.response);
+    });
 
-    // let query = "grace hopper";
-    // axios.get(`/search?string=${query}`)
-    // .then((response) => {
-    //     console.log(response);
-    // })
-    // .catch(function (error) {
-    //     console.log(error);
-    // });
-    
-})
+  // let query = "grace hopper";
+  // axios.get(`/search?string=${query}`)
+  // .then((response) => {
+  //     console.log(response);
+  // })
+  // .catch(function (error) {
+  //     console.log(error);
+  // });
+});
 
-function createCharts(firstdata, seconddata, i)  {
-    var div = d3.select(`#main-div-${i}`).append("div")
-    .attr("class", "tooltip-donut")
-    .style("opacity", 0);
-    console.log(i)
-
-    const colors = d3.scaleOrdinal(['red', 'white'])
-    const radius = 75;
-    const path = d3.arc().outerRadius(radius).innerRadius(50)
-    
-    const strikespie = d3.pie().value(d => d.value)
-    const takedownpie = d3.pie().value(d => d.value)
-
-
-    d3.select(`#main-div-${i}`)
-    .append("svg")
-    // .attr('width', 400)
-    // .attr('height', 400)
-    .append('g').attr('transform', `translate(${Math.floor(400/4)}, ${Math.floor(175/2)})` )
-    .selectAll('.arc').data(strikespie(firstdata)).enter().append('g').attr('class', 'arc')
-    .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
-    .on('mouseover', function (d, i) {
-        // console.log(d.target.__data__.value)
-        d3.select(this).transition()
-             .duration('50')
-             .attr('opacity', '.85')
-
-             div.transition()
-               .duration(50)
-               .style("opacity", 1);
-             div.html(d.target.__data__.value)
-            //  .style("left", (d3.event.pageX + 10) + "px")
-            //    .style("top", (d3.event.pageY - 15) + "px");
-    })
-   .on('mouseout', function (d, i) {
-        d3.select(this).transition()
-             .duration('50')
-             .attr('opacity', '1');
-
-             div.transition()
-               .duration('50')
-               .style("opacity", 0);
-   })
-
-    d3.select(`#main-div-${i}`)
-    .append("svg")
-    // .attr('width', 400)
-    // .attr('height', 400)
-    .append('g').attr('transform', `translate(${Math.floor(285)}, ${Math.floor(175/2)})` )
-    .selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
-    .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
-
-// const label = d3.arc().outerRadius(radius).innerRadius(100)
-// strikesPies.append('text')
-// .attr('transform', function(d){
-//   return "translate(" + label.centroid(d) + ")"
-// }) 
-// .text(d => d.data.name)
-
-// const secondPie = svg.append('g').attr('transform', `translate(${width/2}, ${Math.floor(height/2)})` )
-// const takedownpie = d3.pie().value(d => d.value)
-// const secondpath = d3.arc().outerRadius(radius).innerRadius(50)
-// const takedownPies = secondPie.selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
-// takedownPies.append('path').attr('d', secondpath).attr('fill', d => colors(d.data.value))
-
-// const secondlabel = d3.arc().outerRadius(radius).innerRadius(100)
-// takedownPies.append('text')
-// .attr('transform', function(d){
-//   return "translate(" + secondlabel.centroid(d) + ")"
-// }) 
-// .text(d => d.data.name)
-}
-
-let testobject = {}
-let cards = {}
-function getRankings(rankings) {
-
-    // var mainContainer = document.getElementById("navbar");
-    let dropdown = document.getElementById("weight-classes")
-    // console.log(rankings)
-    // dropdown.setAttribute("id", "weight-classes")
-    for (var i = 0; i < rankings.length; i++) {
-
-        let division = rankings[i].name.split("_").join(" ") //weight class name
-        // console.log(division)
-        let competitorArray = Object.values(rankings[i].competitor_rankings)
-        testobject[division]= competitorArray
-
-        dropdown.appendChild(new Option(`${division}`, `${division}` ));
-    }
-    console.log(testobject)
+function createCharts(firstdata, seconddata, i) {
   
-    dropdown.addEventListener('change', (e) => getFighters(e.target.value))
+  const colors = d3.scaleOrdinal(["red", "white"]);
+  const radius = 75;
+  const path = d3.arc().outerRadius(radius).innerRadius(50);
+
+  const strikespie = d3.pie().value((d) => d.value);
+  const takedownpie = d3.pie().value((d) => d.value);
+
+  let svg = d3
+    .select(`#main-div-${i}`)
+    .append("svg")
+    .append("g")
+    .attr(
+      "transform",
+      `translate(${Math.floor(400 / 4)}, ${Math.floor(155 / 2)})`
+    );
+
+  var g = svg
+    .selectAll(".arc")
+    .data(strikespie(firstdata))
+    .enter()
+    .append("g")
+    .attr("class", "arc");
+
+  g.append("path")
+    .attr("d", path)
+    .attr("fill", (d) => colors(d.data.value))
+    .on("mouseover", function (d, i) {
+      d3.select(this).transition().duration("50").attr("opacity", ".85");
+
+      hold
+        .text(`${d.target.__data__.value}`)
+        .append("tspan")
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("font-size", "12px")
+      // .attr("dy", "-2em")
+      .text("strikes landed")
+    })
+    .on("mouseout", function (d, i) {
+      d3.select(this).transition().duration("50").attr("opacity", "1");
+
+       hold.text("")
+    });
+
+  let hold = g
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("font-size", ".75em")
+    .text("")
+  //    hold.append("tspan")
+  //    .attr("x", 0)
+  //    .attr('font-size', '.5em')
+  //    .attr("dy", "-.2em")
+  //    .text("stikes")
+
+  // d3.select(`#main-div-${i}`)
+  // .append("svg")
+  // // .attr('width', 400)
+  // // .attr('height', 400)
+  // .append('g').attr('transform', `translate(${Math.floor(285)}, ${Math.floor(155/2)})` )
+  // .selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
+  // .append('path').attr('d', path).attr('fill', d => colors(d.data.value))
+
+  // const label = d3.arc().outerRadius(radius).innerRadius(100)
+  // strikesPies.append('text')
+  // .attr('transform', function(d){
+  //   return "translate(" + label.centroid(d) + ")"
+  // })
+  // .text(d => d.data.name)
+
+  // const secondPie = svg.append('g').attr('transform', `translate(${width/2}, ${Math.floor(height/2)})` )
+  // const takedownpie = d3.pie().value(d => d.value)
+  // const secondpath = d3.arc().outerRadius(radius).innerRadius(50)
+  // const takedownPies = secondPie.selectAll('.arc').data(takedownpie(seconddata)).enter().append('g').attr('class', 'arc')
+  // takedownPies.append('path').attr('d', secondpath).attr('fill', d => colors(d.data.value))
+
+  // const secondlabel = d3.arc().outerRadius(radius).innerRadius(100)
+  // takedownPies.append('text')
+  // .attr('transform', function(d){
+  //   return "translate(" + secondlabel.centroid(d) + ")"
+  // })
+  // .text(d => d.data.name)
 }
 
+let testobject = {};
+let cards = {};
+function getRankings(rankings) {
+  // var mainContainer = document.getElementById("navbar");
+  let dropdown = document.getElementById("weight-classes");
+  // console.log(rankings)
+  // dropdown.setAttribute("id", "weight-classes")
+  for (var i = 0; i < rankings.length; i++) {
+    let division = rankings[i].name.split("_").join(" "); //weight class name
+    // console.log(division)
+    let competitorArray = Object.values(rankings[i].competitor_rankings);
+    testobject[division] = competitorArray;
+
+    dropdown.appendChild(new Option(`${division}`, `${division}`));
+  }
+  console.log(testobject);
+
+  dropdown.addEventListener("change", (e) => getFighters(e.target.value));
+}
 
 const getFighters = async (division) => {
-    cards = {}
-    debugger 
-    let names = []
-    testobject[division].forEach((fighter, i) => {
-        if (i < 11) names.push(fighter.competitor.name)
-    })
-    
-    let newNames = names.map(name => {
-        return name.split(", ")
-    })
+  cards = {};
+  debugger;
+  let names = [];
+  testobject[division].forEach((fighter, i) => {
+    if (i < 11) names.push(fighter.competitor.name);
+  });
 
-    // console.log(newNames)
-    newNames = newNames.forEach((name, i) =>{
-        //  let temp = name.replace(" ", "-")
-        let temp = name.reverse()
-        let firstname = temp[0].split(" ")[0]
-         cards[i]= {
-             'name': (firstname + "-" + temp[1].replace(" ","-")).toUpperCase()
-         }
-    })
-    // console.log(cards)
+  let newNames = names.map((name) => {
+    return name.split(", ");
+  });
 
-         getImage(Object.keys(cards))
-        // console.log(fightfight)
-    
+  // console.log(newNames)
+  newNames = newNames.forEach((name, i) => {
+    //  let temp = name.replace(" ", "-")
+    let temp = name.reverse();
+    let firstname = temp[0].split(" ")[0];
+    cards[i] = {
+      name: (firstname + "-" + temp[1].replace(" ", "-")).toUpperCase(),
+    };
+  });
+  // console.log(cards)
 
-}
+  getImage(Object.keys(cards));
+  // console.log(fightfight)
+};
 
 async function getImage(fightfight) {
-    let tempName=""
-    document.getElementById('loading').style.display = "block"
-    for(let i = 0; i < fightfight.length; i++ ){
-        
-        cards[i]['image']= await nah.getImgURL(cards[i].name)
-    }
-    
-    document.getElementById('loading').style.display = "none"
+  let tempName = "";
+  document.getElementById("loading").style.display = "block";
+  for (let i = 0; i < fightfight.length; i++) {
+    cards[i]["image"] = await nah.getImgURL(cards[i].name);
+  }
 
-    let dContainer = document.getElementById("data-container-inner")
-    dContainer.innerHTML = '';
+  document.getElementById("loading").style.display = "none";
 
-    Object.values(cards).forEach((fighter, i) => {
+  let dContainer = document.getElementById("data-container-inner");
+  dContainer.innerHTML = "";
 
-                var fightStats = document.createElement("div") //main div to append things to
-                fightStats.setAttribute("id", `${i}` )
-                fightStats.classList.add("each-fighter");
-                
-                var fighterfront = document.createElement("div")
-                fighterfront.classList.add("fighter-card__face", "fighter-front")
+  Object.values(cards).forEach((fighter, i) => {
+    var fightStats = document.createElement("div"); //main div to append things to
+    fightStats.setAttribute("id", `${i}`);
+    fightStats.classList.add("each-fighter");
 
-                var fighterback = document.createElement("div")
-                fighterback.classList.add("fighter-card__face","fighter-back")
+    var fighterfront = document.createElement("div");
+    fighterfront.classList.add("fighter-card__face", "fighter-front");
 
-                var fighterImg = document.createElement("div") //div to append img to
-                fighterImg.setAttribute("id", `${ i === 0 ? "champ-img" : "fighter-img"}`)
+    var fighterback = document.createElement("div");
+    fighterback.classList.add("fighter-card__face", "fighter-back");
 
-                var Img = document.createElement("img") //div to append img to
-                Img.src = `${fighter.image}`;
+    var fighterImg = document.createElement("div"); //div to append img to
+    fighterImg.setAttribute("id", `${i === 0 ? "champ-img" : "fighter-img"}`);
 
-                fighterImg.appendChild(Img)
+    var Img = document.createElement("img"); //div to append img to
+    Img.src = `${fighter.image}`;
 
-                var fighterInfo = document.createElement("div") //div to append text/data to
-                fighterInfo.setAttribute("id", "fighter-info")
+    fighterImg.appendChild(Img);
 
-                
-                let position = i === 0 ? "C" : i;  //if position is 0, then athlete is current champion if division
-                
-                let rank = document.createElement("h2")
-                rank.textContent = `${position}`
+    var fighterInfo = document.createElement("div"); //div to append text/data to
+    fighterInfo.setAttribute("id", "fighter-info");
 
-                let fighterName = document.createElement("h1")
-                fighterName.textContent = `${fighter.name.split(/-(.+)/)[1]}` 
+    let position = i === 0 ? "C" : i; //if position is 0, then athlete is current champion if division
 
-                fighterInfo.appendChild(rank)
-                fighterInfo.appendChild(fighterName)
+    let rank = document.createElement("h2");
+    rank.textContent = `${position}`;
 
-                fighterfront.appendChild(fighterImg)
-                fighterfront.appendChild(fighterInfo)
+    let fighterName = document.createElement("h1");
+    fighterName.textContent = `${fighter.name.split(/-(.+)/)[1]}`;
 
-                // let flipped = document.createElement("div") //div to append text/data to
-                // fightStats.appendChild(flipped)
+    fighterInfo.appendChild(rank);
+    fighterInfo.appendChild(fighterName);
 
-                fightStats.appendChild(fighterfront)
-                fightStats.appendChild(fighterback)
-                dContainer.appendChild(fightStats)
-                fightStats.addEventListener("click", (event) => {
+    fighterfront.appendChild(fighterImg);
+    fighterfront.appendChild(fighterInfo);
 
-                    flipCard(fightStats)
-                })
-                         
-    })
+    // let flipped = document.createElement("div") //div to append text/data to
+    // fightStats.appendChild(flipped)
+
+    fightStats.appendChild(fighterfront);
+    fightStats.appendChild(fighterback);
+    dContainer.appendChild(fightStats);
+    fightStats.addEventListener("click", (event) => {
+      flipCard(fightStats);
+    });
+  });
 }
 
-
 function addFlippedInfo(element) {
-    debugger
-    // console.log(i)
-    let cardBack = element.children[1] //grab the flip div
-    console.log(cardBack)
-    console.log(element.id)
-    let nickname = document.createElement('h1')
-    nickname.textContent = `${cards[element.id].nickname ? '"' + cards[element.id].nickname.toUpperCase() + '"' : cards[element.id].name.split(/-(.+)/)[1]  }`
+  debugger;
+  // console.log(i)
+  let cardBack = element.children[1]; //grab the flip div
+  // console.log(cardBack)
+  // console.log(element.id)
+  let nickname = document.createElement("h1");
+  nickname.textContent = `${
+    cards[element.id].nickname
+      ? '"' + cards[element.id].nickname.toUpperCase() + '"'
+      : cards[element.id].name.split(/-(.+)/)[1]
+  }`;
 
-    let mainDiv = document.createElement('div')
-    mainDiv.classList.add("main-div-content");
-    mainDiv.setAttribute("id", `main-div-${element.id}`);
-    
-    cardBack.appendChild(nickname)
-    cardBack.appendChild(mainDiv)
-    // // console.log(cards[i])
-    const { 
-        strikesAttempted, 
-        strikesLanded, 
-        takedownsLanded, 
-        takedownsAttempted } = cards[element.id]
+  let mainDiv = document.createElement("div");
+  mainDiv.classList.add("main-div-content");
+  mainDiv.setAttribute("id", `main-div-${element.id}`);
 
-                let strikingData = [
-                    {
-                        name: 'Strikes Landed',
-                        value: strikesLanded
-                    },
-                    {
-                        name: 'Strikes Attempted',
-                        value: strikesAttempted
-                    }
-                ]
-                
-                let wrestlingData = [
-                    {
-                        name: 'Takedowns Landed',
-                        value: takedownsLanded
-                    },
-                    {
-                        name: 'Takedowns Attempted',
-                        value: takedownsAttempted
-                    }
-                ]
+  cardBack.appendChild(nickname);
+  cardBack.appendChild(mainDiv);
+  // // console.log(cards[i])
+  const {
+    strikesAttempted,
+    strikesLanded,
+    takedownsLanded,
+    takedownsAttempted,
+  } = cards[element.id];
 
-                createCharts(strikingData, wrestlingData, element.id)
+  let strikingData = [
+    {
+      name: "Strikes Landed",
+      value: strikesLanded,
+    },
+    {
+      name: "Strikes Attempted",
+      value: strikesAttempted,
+    },
+  ];
+
+  let wrestlingData = [
+    {
+      name: "Takedowns Landed",
+      value: takedownsLanded,
+    },
+    {
+      name: "Takedowns Attempted",
+      value: takedownsAttempted,
+    },
+  ];
+
+  createCharts(strikingData, wrestlingData, element.id);
 }
 
 // let cards = {}
 async function flipCard(element) {
-    // console.log(cards)
-    element.classList.toggle('is-flipped');
+  // console.log(cards)
+  element.classList.toggle("is-flipped");
 
-    if(!cards[element.id].flipped) {
-    const { 
-         strikesLanded, 
-        strikesAttempted, 
-        takedownsLanded,
-        takedownsAttempted,
-    nickname } = await nah.getStats(cards[element.id].name)  
+  if (!cards[element.id].flipped) {
+    const {
+      strikesLanded,
+      strikesAttempted,
+      takedownsLanded,
+      takedownsAttempted,
+      nickname,
+      reach,
+      height,
+    } = await nah.getStats(cards[element.id].name);
 
-        cards[element.id].flipped = true
-        cards[element.id].degree= 0,
-        cards[element.id].strikesLanded = strikesLanded
-        cards[element.id].strikesAttempted = strikesAttempted
-        cards[element.id].takedownsLanded = takedownsLanded
-        cards[element.id].takedownsAttempted = takedownsAttempted 
-        cards[element.id].nickname= nickname
-        addFlippedInfo(element)
-        }
+    cards[element.id].flipped = true;
+    (cards[element.id].degree = 0),
+      (cards[element.id].strikesLanded = strikesLanded);
+    cards[element.id].strikesAttempted = strikesAttempted;
+    cards[element.id].takedownsLanded = takedownsLanded;
+    cards[element.id].takedownsAttempted = takedownsAttempted;
+    cards[element.id].nickname = nickname;
+    cards[element.id].reach = reach;
+    cards[element.id].height = height;
+
+    console.log(cards[element.id]);
+    addFlippedInfo(element);
+  }
 }
 
 async function fighterInfo(name) {
-    // let isbn = '0201558025';
-    // debugger
-    console.log("api called again")
-    return await nah.getStats(name)
-    //   axios.get(`/fighters/${fighterId}`)
-    //   .then((response) => {
-        //       debugger
-        //       console.log(response.data); 
-//       cards[id].fighterObject = response.data
-//       addFlippedInfo(id)
-//   })
-//   .catch(function (error) {
-//       debugger
-//       console.log(error.response);
-//   });
-
+  // let isbn = '0201558025';
+  // debugger
+  console.log("api called again");
+  return await nah.getStats(name);
+  //   axios.get(`/fighters/${fighterId}`)
+  //   .then((response) => {
+  //       debugger
+  //       console.log(response.data);
+  //       cards[id].fighterObject = response.data
+  //       addFlippedInfo(id)
+  //   })
+  //   .catch(function (error) {
+  //       debugger
+  //       console.log(error.response);
+  //   });
 }
-
-
