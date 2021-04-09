@@ -208,7 +208,10 @@ async function getImage(fightfight) {
     rank.textContent = `${position}`;
 
     let fighterName = document.createElement("h1");
-    fighterName.textContent = `${fighter.name.split(/-(.+)/)[1]}`;
+    let lastName = fighter.name.split(/-(.+)/)[1]
+    fighterName.textContent = `${lastName}`;
+
+    if (lastName.length > 12) fighterName.classList.add("longer-name");
 
     fighterInfo.appendChild(rank);
     fighterInfo.appendChild(fighterName);
