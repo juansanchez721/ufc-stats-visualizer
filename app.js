@@ -1,27 +1,17 @@
 const express = require('express')
-require('babel-polyfill')
+// require('babel-polyfill')
 const Cors = require('cors')
 const app = express()
 const path = require('path')
 const fetch = require('node-fetch')
 const PORT = process.env.PORT || 8000; // process.env accesses heroku's environment variables
 const keys = require('./config/keys')
-const yo = require('./src/scripts/webscraper')
-const cheerio = require('cheerio') 
+
 
 app.use(express.static('dist'))
 app.use(Cors())
 
-const getImgURL = require('./src/scripts/webscraper')
-
 const secret = ({ apikey: keys.ufcAPI })
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept: application/json");
-//   next();
-// });
-
 
 const bodyParser = require('body-parser');
 const { get } = require('https');
@@ -45,7 +35,6 @@ app.get(`/fighters/image/:name`, async (request, response) => {
   console.log("inside bruh")
   axios.get(`https://www.ufc.com/athlete/${request.params.name}`)
   .then( data => {
-    // console.log("inside this hoe")
     // console.log(data.data)
     return response.json(data.data)
 
@@ -53,12 +42,6 @@ app.get(`/fighters/image/:name`, async (request, response) => {
   .catch(function (error) {
     response.send(null);
 });
-  // const image = await yo.getImgURL()
-  
-  // response.json(image)
-  
-  // console.log(response)
-  // return response.data
 });
 // create route to get single book by its isbn
 app.get('/rankings', (request, response) => {
