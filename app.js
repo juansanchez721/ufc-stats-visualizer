@@ -63,7 +63,6 @@ app.get(`/fighters/image/:name`, async (request, response) => {
 // create route to get single book by its isbn
 app.get('/rankings', (request, response) => {
   console.log("inside inside")
-  debugger
   // make api call using fetch
   fetch(`http://api.sportradar.us/ufc/trial/v2/en/rankings.json?api_key=${secret.apikey}`)
   .then(response => {

@@ -6,7 +6,7 @@ const axios = require('axios')
 const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
  async function getImgURL(name='conor-mcgregor') {
-    debugger
+    // debugger
 
     let nameURL = name
     switch (name) {
@@ -80,15 +80,15 @@ async function getStats(name='conor-mcgregor') {
     let reach = firstreach[0] ? firstreach[0].children[0].data : secondreach[0].children[0].data
     let nicknameText = ""
     if (nicknameDiv[0].children.length){
-        debugger
+        // debugger
         const nickname = nicknameDiv.find('div')
-        debugger
+        // debugger
         nicknameText = nickname[0].children[0].data.split('"')[1]
         // console.log(nicknameText)
-      debugger  
+    //   debugger  
     } 
 
-        debugger
+        // debugger
      let strikes = {
             nickname: nicknameText ,
             reach,
@@ -99,7 +99,7 @@ async function getStats(name='conor-mcgregor') {
             takedownsLanded: statsDiv[2] && statsDiv[2].children.length ? statsDiv[2].children[0].data :  "0",
             takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : "0"
         }
-        debugger
+        // debugger
         console.log(strikes)
         // console.log(strikes.takedownsLanded)
         // console.log(strikes.takedownsAttempted)

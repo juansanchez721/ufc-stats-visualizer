@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
   axios
     .get(`/rankings`)
     .then((response) => {
-      debugger;
+      // debugger;
       const rankings = response.data.rankings;
       getRankings(rankings);
     })
     .catch(function (error) {
-      debugger;
+      // debugger;
       console.log(error.response);
     });
 
@@ -51,7 +51,7 @@ function getRankings(rankings) {
 
 const getFighters = async (division) => {
   cards = {};
-  debugger;
+  // debugger;
   let names = [];
   testobject[division].forEach((fighter, i) => {
     if (i < 11) names.push(fighter.competitor.name);
@@ -137,7 +137,7 @@ async function getImage(fightfight) {
 }
 
 function addFlippedInfo(element) {
-  debugger;
+  // debugger;
   // console.log(i)
   let cardBack = element.children[1]; //grab the flip div
   let nickname = document.createElement("h1");

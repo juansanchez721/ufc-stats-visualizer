@@ -36076,11 +36076,11 @@ document.addEventListener("DOMContentLoaded", function () {
     card.classList.toggle("is-flipped");
   });
   axios.get("/rankings").then(function (response) {
-    debugger;
+    // debugger;
     var rankings = response.data.rankings;
     getRankings(rankings);
   }).catch(function (error) {
-    debugger;
+    // debugger;
     console.log(error.response);
   });
 });
@@ -36115,7 +36115,7 @@ var getFighters = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             cards = {};
-            debugger;
+            // debugger;
             names = [];
             testobject[division].forEach(function (fighter, i) {
               if (i < 11) names.push(fighter.competitor.name);
@@ -36234,7 +36234,7 @@ function _getImage() {
 }
 
 function addFlippedInfo(element) {
-  debugger; // console.log(i)
+  // debugger; // console.log(i)
 
   var cardBack = element.children[1]; //grab the flip div
 
@@ -36454,7 +36454,7 @@ function _getImgURL() {
         switch (_context.prev = _context.next) {
           case 0:
             name = _args.length > 0 && _args[0] !== undefined ? _args[0] : 'conor-mcgregor';
-            debugger;
+            // debugger;
             nameURL = name;
             _context.t0 = name;
             _context.next = _context.t0 === "DANIEL-HOOKER" ? 6 : _context.t0 === "GEOFFERY-NEAL" ? 8 : _context.t0 === "ALEX-VOLKANOVSKI" ? 10 : _context.t0 === "CHAN-JUNG" ? 12 : 14;
@@ -36553,15 +36553,15 @@ function _getStats() {
               var nicknameText = "";
 
               if (nicknameDiv[0].children.length) {
-                debugger;
+                // debugger;
                 var nickname = nicknameDiv.find('div');
-                debugger;
+                // debugger;
                 nicknameText = nickname[0].children[0].data.split('"')[1]; // console.log(nicknameText)
 
-                debugger;
+                // debugger;
               }
 
-              debugger;
+              // debugger;
               var strikes = {
                 nickname: nicknameText,
                 reach: reach,
@@ -36572,7 +36572,7 @@ function _getStats() {
                 takedownsLanded: statsDiv[2] && statsDiv[2].children.length ? statsDiv[2].children[0].data : "0",
                 takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : "0"
               };
-              debugger;
+              // debugger;
               console.log(strikes); // console.log(strikes.takedownsLanded)
               // console.log(strikes.takedownsAttempted)
 
