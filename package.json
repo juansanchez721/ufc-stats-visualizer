@@ -15,7 +15,7 @@
     "not dead"
   ],
   "scripts": {
-    "start": "NODE_ENV=production node app.js",
+    "start": "node app.js",
     "webpack:watch": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js  --optimize-minimize"
   },
