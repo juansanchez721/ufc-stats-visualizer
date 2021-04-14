@@ -229,6 +229,8 @@ function createBarChart(record, i) {
   .append("svg")
 
   .attr("width", "100%")
+  .attr("height", 135)
+
   .attr("text-anchor", "end")
   
   const bar = svg.selectAll("g")
@@ -240,8 +242,10 @@ function createBarChart(record, i) {
   bar.append("rect")
   .attr("fill", "steelblue")
   .attr("y", 40)
+  .attr("height", y.bandwidth() - 5)
+  .transition()
+  .duration(1500)
   .attr("width", d => x(d.value))
-  .attr("height", y.bandwidth() - 5);
   
   bar.append("text")
   .attr("fill", "white")
@@ -280,7 +284,7 @@ function createCircleCharts(firstdata, i, category) {
   let svg = d3
     .select(`#main-div-${i}`)
     .append("svg")
-    .attr("width", 190)
+    .attr("width", 175)
     .append("g")
     .attr(
       "transform",
@@ -318,7 +322,7 @@ function createCircleCharts(firstdata, i, category) {
           )
           
           desc
-          .text(`${ " "+ d.target.__data__.data.name + " ratio"}`)
+          .text(`Overall ${d.target.__data__.data.name} Ratio`)
           .style('font-size', '14px')
 
 
@@ -344,9 +348,9 @@ function createCircleCharts(firstdata, i, category) {
     .append('div')
     .attr("class", "legend")
     .attr("id", `legend-${category}-${i}`)
-    .attr("width", 190)
+    .attr("width", 175)
     .append("svg")
-    .attr("width", 190)
+    .attr("width", 175)
     .attr("height", 50 )
     // .attr("height", (firstdata.length - 1) * 20)
     .selectAll("g")
@@ -388,12 +392,12 @@ function createCircleCharts(firstdata, i, category) {
     .attr("y", 50)
     .attr("text-anchor", "middle")
     .style('font-size', '45px')
-    .text("Test")
+    .text("")
     
     let desc = d3.select(`#legend-${category}-${i}`).append("text")
           .attr("x", 100)
           .attr("y", 100)  
-          .text("test tspan")
+          .text("")
           .style('font-size', '14px')
 
 }
