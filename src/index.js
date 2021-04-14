@@ -27,99 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function createCharts(firstdata, i, category) {
-  const colors = d3.scaleOrdinal(["red", "white"]);
-  const radius = 75;
-  const path = d3.arc().outerRadius(radius).innerRadius(50);
 
-  const strikespie = d3.pie().value((d) => d.value);
-//   const takedownpie = d3.pie().value((d) => d.value);
-
-  //create and append svg for chart
-  let svg = d3
-    .select(`#main-div-${i}`)
-    .append("svg")
-    .append("g")
-    .attr(
-      "transform",
-      `translate(${Math.floor(400 / 4)}, ${Math.floor(155 / 2)})`
-    );
-
-  var g = svg
-    .selectAll(".arc")
-    .data(strikespie(firstdata))
-    .enter()
-    .append("g")
-    .attr("class", "arc");
-
-  g.append("path")
-    .attr("d", path)
-    .attr("fill", (d) => colors(d.data.value))
-    .on("mouseover", function (d, i) {
-      d3.select(this).transition().duration("50").attr("opacity", ".85");
-      //   console.log(d.target.__data__.data.name)
-      hold
-        .text(`${d.target.__data__.value}`)
-        .append("tspan")
-        .attr("x", 0)
-        .attr("y", 20)
-        .attr("font-size", "12px")
-        // .attr("dy", "-2em")
-        .text(`${d.target.__data__.data.name}`);
-    })
-    .on("mouseout", function (d, i) {
-      d3.select(this).transition().duration("50").attr("opacity", "1");
-
-      hold.text(category);
-    });
-
-  let hold = svg
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("y", 10)
-    .attr("x", -2)
-    .attr("font-size", ".8em")
-    .text(category);
-
-
-    ///create and append legend
-  var legend = d3
-    .select(`#main-div-${i}`)
-    .append("svg")
-    .attr("class", "legend")
-    .attr("width", 120)
-    // .attr("height", (firstdata.length - 1) * 20)
-    .selectAll("g")
-    .data(firstdata)
-    .enter()
-    .append("g")
-    .attr("transform", function (d, i) {
-      return "translate(0," + i * 20 + ")";
-    });
-
-  legend
-    .append("rect")
-    .attr("x", 10)
-    .attr("y", 4)
-    .attr("width", 10)
-    .attr("height", 10)
-    .attr("fill", (d) => colors(d.value));
-
-  legend
-    .append("text")
-    .attr("x", 24)
-    .attr("y", 13)
-    .attr("font-size", "13px")
-    .text(function (d) {
-      return d.name;
-    });
-
-    legend.append("textspan")
-    .attr('x', 20)
-    .attr('y', 50)
-    .attr('font-size', '24px')
-    .text("Test")
-}
 
 let testobject = {};
 let cards = {};
@@ -251,12 +159,13 @@ function addFlippedInfo(element) {
     strikesLanded,
     takedownsLanded,
     takedownsAttempted,
+    record
   } = cards[element.id];
 
   let strikingData = [
     {
       name: "Strikes Landed",
-      value: strikesLanded,
+      value: parseInt(strikesLanded),
     },
     {
       name: "Strikes Missed",
@@ -267,7 +176,7 @@ function addFlippedInfo(element) {
   let wrestlingData = [
     {
       name: "Takedowns Landed",
-      value: takedownsLanded,
+      value: parseInt(takedownsLanded),
     },
     {
       name: "Takedowns Missed",
@@ -275,14 +184,217 @@ function addFlippedInfo(element) {
     },
   ];
 
-  createCharts(strikingData, element.id, "Striking")
-  createCharts(wrestlingData, element.id, "Wrestling")
-
+  createCircleCharts(strikingData, element.id, "Striking")
+  createCircleCharts(wrestlingData, element.id, "Wrestling")
+  createBarChart(record, element.id)
   let bottom = document.createElement("div");
   bottom.classList.add("rest-of-card");
 
   cardBack.appendChild(bottom)
 
+
+}
+
+function createBarChart(record, i) {
+  
+  let records = record.split("-").map(ele => parseInt(ele))
+  console.log(records)
+
+  let recordObject = [
+    {
+      name: "Wins",
+      value: records[0]
+    },
+    {
+      name: "Losses",
+      value: records[1]
+    },
+     {
+      name: "Draws",
+      value: records[2]
+    },
+]
+  let x = d3.scaleLinear()
+  .domain([0, d3.max(recordObject, d => d.value)])
+  .range([0, 285])
+
+  let y = d3.scaleBand()
+  .domain(recordObject.map(d => d.value))
+  .range([0, 25 * recordObject.length])
+
+  // let width = 100%
+  // let length = 100%
+  let svg = d3
+  .select(`#main-div-${i}`)
+  .append("svg")
+
+  .attr("width", "100%")
+  .attr("text-anchor", "end")
+  
+  const bar = svg.selectAll("g")
+  .data(recordObject)
+  .join("g")
+  .attr("transform", (d,i) => `translate(0,${y(d.value)})` )
+  
+  
+  bar.append("rect")
+  .attr("fill", "steelblue")
+  .attr("y", 40)
+  .attr("width", d => x(d.value))
+  .attr("height", y.bandwidth() - 5);
+  
+  bar.append("text")
+  .attr("fill", "white")
+  .attr("x", function(d) {
+    return d.value <= 1 ? 40 : x(d.value) + 20
+  } 
+  )
+  .attr("y", (y.bandwidth() / 2) + 40)
+  .attr("dy", "0.2em")
+  .attr("font-size", "12px")
+  .text(d => d.value + " " + d.name);
+  
+  
+    svg.append("text")
+    .attr("text-anchor", "start")
+    // .attr("width", 100)
+    //   .attr("height", 100)
+      .attr("y", 35)
+      .attr("x", 0)
+
+    .text("RECORD")
+
+}
+
+function createCircleCharts(firstdata, i, category) {
+  const colors = d3.scaleOrdinal(["red", "white"]);
+  const radius = 75;
+  const path = d3.arc().outerRadius(radius).innerRadius(50);
+
+  const values = firstdata.map(ele =>  ele.value)
+  console.log(values)
+  const strikespie = d3.pie().value((d) => d.value);
+//   const takedownpie = d3.pie().value((d) => d.value);
+
+  //create and append svg for chart
+  let svg = d3
+    .select(`#main-div-${i}`)
+    .append("svg")
+    .attr("width", 190)
+    .append("g")
+    .attr(
+      "transform",
+      `translate(${Math.floor(400 / 4)}, ${Math.floor(155 / 2)})`
+    );
+
+  var g = svg
+    .selectAll(".arc")
+    .data(strikespie(firstdata))
+    .enter()
+    .append("g")
+    .attr("class", "arc");
+
+  g.append("path")
+    .attr("d", path)
+    .attr("fill", (d) => colors(d.data.value))
+    .on("mouseover", function (d, i) {
+      d3.select(this).transition().duration("50").attr("opacity", ".85");
+      //   console.log(d.target.__data__.data.name)
+      hold
+        .text(`${d.target.__data__.value}`)
+        .append("tspan")
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("font-size", "12px")
+        // .attr("dy", "-2em")
+        .text(`${d.target.__data__.data.name}`);
+
+        ratio
+        .text(
+          `${values[0] === d.target.__data__.value ? 
+          (values[1]/values[0]).toFixed(2)
+          : 
+          (values[0]/values[1]).toFixed(2)}`
+          )
+          
+          desc
+          .text(`${ " "+ d.target.__data__.data.name + " ratio"}`)
+          .style('font-size', '14px')
+
+
+    })
+    .on("mouseout", function (d, i) {
+      d3.select(this).transition().duration("50").attr("opacity", "1");
+
+      hold.text(category);
+    });
+
+  let hold = svg
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("y", 10)
+    .attr("x", -2)
+    .style("font-size", ".8em")
+    .text(category);
+
+
+    ///create and append legend
+
+    var div = d3.select(`#main-div-${i}`)
+    .append('div')
+    .attr("class", "legend")
+    .attr("id", `legend-${category}-${i}`)
+    .attr("width", 190)
+    .append("svg")
+    .attr("width", 190)
+    .attr("height", 50 )
+    // .attr("height", (firstdata.length - 1) * 20)
+    .selectAll("g")
+    .data(firstdata)
+    .enter()
+    .append("g")
+    .attr("transform", function (d, i) {
+      return "translate(0," + i * 20 + ")";
+    })
+
+  div
+    .append("rect")
+    .attr("x", 10)
+    .attr("y", 4)
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("fill", (d) => colors(d.value))
+
+  //   debugger
+    
+  div
+    .append("text")
+    .attr("x", 24)
+    .attr("y", 13)
+    .attr("font-size", "13px")
+    .text(function (d) {
+      return d.name;
+    })
+
+  //   var ratio = d3
+  //   .select(`#main-div-${i}`)
+  //   .append("svg")
+  //   .attr("width", 190)
+  //   .attr("height", 75 )
+
+  let ratio = d3.select(`#legend-${category}-${i}`)
+    .append("text")
+    .attr("x", 100)
+    .attr("y", 50)
+    .attr("text-anchor", "middle")
+    .style('font-size', '45px')
+    .text("Test")
+    
+    let desc = d3.select(`#legend-${category}-${i}`).append("text")
+          .attr("x", 100)
+          .attr("y", 100)  
+          .text("test tspan")
+          .style('font-size', '14px')
 
 }
 
@@ -299,7 +411,7 @@ async function flipCard(element) {
       takedownsAttempted,
       nickname,
       reach,
-      height,
+      record
     } = await nah.getStats(cards[element.id].name);
 
     cards[element.id].flipped = true;
@@ -310,7 +422,7 @@ async function flipCard(element) {
     cards[element.id].takedownsAttempted = takedownsAttempted;
     cards[element.id].nickname = nickname;
     cards[element.id].reach = reach;
-    cards[element.id].height = height;
+    cards[element.id].record = record;
 
     // console.log(cards[element.id]);
     addFlippedInfo(element);
