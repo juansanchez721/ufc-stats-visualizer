@@ -48,7 +48,7 @@ body {
 }
 
 .main-content {
-  padding: 75px 20px 0 20px;
+  padding: 70px 20px 0 20px;
   min-width: 550px;
 
   height: 100%;
@@ -63,24 +63,25 @@ body {
 
 #data-container {
   color: white;
-  background-color: blueviolet;
+  background-color: darkgray;
   width: 90%;
-  height: 100%;
+  height: 700px;
   overflow-x: auto;
 }
 
 #data-container-inner{
-  background-color: red;
   display: flex;
   flex-direction: row;
   /* justify-content: space-evenly; */
   min-width: 100%;
+  align-items: center;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   padding: 10px;
   box-sizing: border-box;
   perspective: 4200px;
   /* width: fit-content; */
+  height: 100%;
 }
 
 

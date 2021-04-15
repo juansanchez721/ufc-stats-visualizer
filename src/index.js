@@ -316,9 +316,9 @@ function createCircleCharts(firstdata, i, category) {
         ratio
         .text(
           `${values[0] === d.target.__data__.value ? 
-          (values[1]/values[0]).toFixed(2)
+          (values[0]/values[1]).toFixed(2)
           : 
-          (values[0]/values[1]).toFixed(2)}`
+          (values[1]/values[0]).toFixed(2)}`
           )
           
           desc
