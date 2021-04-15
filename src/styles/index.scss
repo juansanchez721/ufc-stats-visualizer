@@ -63,7 +63,7 @@ body {
 
 #data-container {
   color: white;
-  background-color: darkgray;
+  background-color: maroon;
   width: 90%;
   height: 700px;
   overflow-x: auto;
@@ -73,11 +73,12 @@ body {
   display: flex;
   flex-direction: row;
   /* justify-content: space-evenly; */
+  background-color: darkgray;
   min-width: 100%;
   align-items: center;
   width: -webkit-fit-content;
   width: -moz-fit-content;
-  padding: 10px;
+  /* padding: 10px; */
   box-sizing: border-box;
   perspective: 4200px;
   /* width: fit-content; */
@@ -267,7 +268,7 @@ text-align: center;
 .welcome-div {
   background-color: maroon;
   width: 100%;
-  height: 500px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
