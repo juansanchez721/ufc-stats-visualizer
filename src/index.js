@@ -404,10 +404,11 @@ function createCircleCharts(firstdata, i, category) {
 
 // let cards = {}
 async function flipCard(element) {
-  // console.log(cards)
+  console.log(cards)
   element.classList.toggle("is-flipped");
-
+debugger
   if (!cards[element.id].flipped) {
+    debugger
     const {
       strikesLanded,
       strikesAttempted,
@@ -418,17 +419,19 @@ async function flipCard(element) {
       record
     } = await nah.getStats(cards[element.id].name);
 
-    cards[element.id].flipped = true;
-    (cards[element.id].degree = 0),
-      (cards[element.id].strikesLanded = strikesLanded);
-    cards[element.id].strikesAttempted = strikesAttempted;
-    cards[element.id].takedownsLanded = takedownsLanded;
-    cards[element.id].takedownsAttempted = takedownsAttempted;
-    cards[element.id].nickname = nickname;
-    cards[element.id].reach = reach;
-    cards[element.id].record = record;
+    debugger 
 
-    // console.log(cards[element.id]);
+    cards[element.id].flipped = true
+    cards[element.id].degree = 0
+    cards[element.id].strikesLanded = strikesLanded
+    cards[element.id].strikesAttempted = strikesAttempted
+    cards[element.id].takedownsLanded = takedownsLanded
+    cards[element.id].takedownsAttempted = takedownsAttempted
+    cards[element.id].nickname = nickname
+    cards[element.id].reach = reach
+    cards[element.id].record = record
+
+    console.log(cards[element.id]);
     addFlippedInfo(element);
   }
 }

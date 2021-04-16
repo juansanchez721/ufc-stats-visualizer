@@ -1,5 +1,5 @@
 const express = require('express')
-// require('babel-polyfill')
+require('babel-polyfill')
 const Cors = require('cors')
 const app = express()
 const path = require('path')
