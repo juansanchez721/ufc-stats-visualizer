@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 
 const axios = require('axios')
 // const cheerio = require('cheerio') 
-const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
+// const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
  async function getImgURL(name='conor-mcgregor') {
     // debugger
