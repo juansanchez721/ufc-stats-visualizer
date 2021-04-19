@@ -50,6 +50,9 @@ function getRankings(rankings) {
 }
 
 const getFighters = async (division) => {
+  let dropdown = document.getElementById("weight-classes");
+  dropdown.disabled = true
+
   cards = {};
   // debugger;
   let names = [];
@@ -72,8 +75,11 @@ const getFighters = async (division) => {
   });
   // console.log(cards)
 
-  getImage(Object.keys(cards));
+  await getImage(Object.keys(cards));
   // console.log(fightfight)
+
+  dropdown.disabled = false
+
 };
 
 async function getImage(fightfight) {
@@ -406,9 +412,9 @@ function createCircleCharts(firstdata, i, category) {
 async function flipCard(element) {
   console.log(cards)
   element.classList.toggle("is-flipped");
-debugger
+// debugger
   if (!cards[element.id].flipped) {
-    debugger
+    // debugger
     const {
       strikesLanded,
       strikesAttempted,
@@ -419,7 +425,7 @@ debugger
       record
     } = await nah.getStats(cards[element.id].name);
 
-    debugger 
+    // debugger 
 
     cards[element.id].flipped = true
     cards[element.id].degree = 0

@@ -62,7 +62,6 @@ async function getStats(name='conor-mcgregor') {
 
     return await axios.get(`/fighters/image/${nameURL}`)
     .then(res =>{
-        debugger
     const $ = cheerio.load(res.data)
 
     const nicknameDiv = $('div.c-hero--full__headline-prefix')
@@ -71,15 +70,12 @@ async function getStats(name='conor-mcgregor') {
     const secondreach = $("#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__info > div.c-bio__info-details > div:nth-child(4) > div:nth-child(2) > div.c-bio__text")
     const recordDiv = $("div.c-hero__header")
 
-    debugger
     let record = recordDiv[0].children[5].children[0].data.split("•")[1].split(" ")[29]
     // console.log(firstreach)
     // console.log(secondreach)
     let reach = firstreach[0] ? firstreach[0].children[0].data : secondreach[0].children[0].data
-    debugger
     let nicknameText = ""
     if (nicknameDiv[0].children.length){
-        debugger
         const nickname = nicknameDiv.find('div')
         // debugger
         nicknameText = nickname[0].children[0].data.split('"')[1]
@@ -87,7 +83,6 @@ async function getStats(name='conor-mcgregor') {
     //   debugger  
     } 
 
-        debugger
      let strikes = {
             nickname: nicknameText ,
             reach,
@@ -98,7 +93,6 @@ async function getStats(name='conor-mcgregor') {
             takedownsLanded: statsDiv[2] && statsDiv[2].children.length ? statsDiv[2].children[0].data :  "0",
             takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : "0"
         }
-        debugger
         console.log(strikes)
         // console.log(strikes.takedownsLanded)
         // console.log(strikes.takedownsAttempted)
