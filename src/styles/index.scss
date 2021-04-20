@@ -336,13 +336,13 @@ text-align: center;
   }
 
   .card__face {
+    -webkit-transform-style: preserve-3d;
+
     position: absolute;
     width: 100%;
     height: 100%;
     color: black;
     font-weight: bold;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -364,7 +364,6 @@ text-align: center;
 }
 
 .rest-of-card {
-  background-color: sandybrown;
   height: 100%;
   width: 100%;
 }
