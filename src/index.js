@@ -16,12 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
   axios
     .get(`/rankings`)
     .then((response) => {
-      // debugger;
       const rankings = response.data.rankings;
       getRankings(rankings);
     })
     .catch(function (error) {
-      // debugger;
       console.log(error.response);
     });
 
@@ -54,7 +52,6 @@ const getFighters = async (division) => {
   dropdown.disabled = true
 
   cards = {};
-  // debugger;
   let names = [];
   testobject[division].forEach((fighter, i) => {
     if (i < 11) names.push(fighter.competitor.name);
@@ -143,8 +140,7 @@ async function getImage(fightfight) {
 }
 
 function addFlippedInfo(element) {
-  // debugger;
-  // console.log(i)
+
   let cardBack = element.children[1]; //grab the flip div
   let nickname = document.createElement("h1");
   nickname.textContent = `${
@@ -374,8 +370,6 @@ function createCircleCharts(firstdata, i, category) {
     .attr("width", 10)
     .attr("height", 10)
     .attr("fill", (d) => colors(d.value))
-
-  //   debugger
     
   div
     .append("text")
@@ -408,13 +402,10 @@ function createCircleCharts(firstdata, i, category) {
 
 }
 
-// let cards = {}
 async function flipCard(element) {
   console.log(cards)
   element.classList.toggle("is-flipped");
-// debugger
   if (!cards[element.id].flipped) {
-    // debugger
     const {
       strikesLanded,
       strikesAttempted,
@@ -424,8 +415,6 @@ async function flipCard(element) {
       reach,
       record
     } = await nah.getStats(cards[element.id].name);
-
-    // debugger 
 
     cards[element.id].flipped = true
     cards[element.id].degree = 0

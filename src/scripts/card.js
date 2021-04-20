@@ -3,7 +3,6 @@ export default class Card {
     constructor(){
         console.log("incontructor")
         this.makeCall = this.makeCall.bind(this)
-//  debugger
         this.info = this.makeCall()  
         
     }
@@ -17,4 +16,3 @@ export default class Card {
 
 }
 
-// module.exports = Card

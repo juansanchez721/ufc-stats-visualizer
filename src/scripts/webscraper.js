@@ -6,7 +6,6 @@ const axios = require('axios')
 // const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
  async function getImgURL(name='conor-mcgregor') {
-    // debugger
 
     let nameURL = name
     switch (name) {
@@ -28,12 +27,10 @@ const axios = require('axios')
     
     return await axios.get(`/fighters/image/${nameURL}`)
     .then(res =>{
-        // console.log(res.data.chicken)
 
     const $ = cheerio.load(res.data)
     const image = $('div.c-bio__image > img')
     
-    // console.log(image)
     return image[0].attribs.src
 
     })
@@ -71,16 +68,11 @@ async function getStats(name='conor-mcgregor') {
     const recordDiv = $("div.c-hero__header")
 
     let record = recordDiv[0].children[5].children[0].data.split("•")[1].split(" ")[29]
-    // console.log(firstreach)
-    // console.log(secondreach)
     let reach = firstreach[0] ? firstreach[0].children[0].data : secondreach[0].children[0].data
     let nicknameText = ""
     if (nicknameDiv[0].children.length){
         const nickname = nicknameDiv.find('div')
-        // debugger
         nicknameText = nickname[0].children[0].data.split('"')[1]
-        // console.log(nicknameText)
-    //   debugger  
     } 
 
      let strikes = {
@@ -94,8 +86,6 @@ async function getStats(name='conor-mcgregor') {
             takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : "0"
         }
         console.log(strikes)
-        // console.log(strikes.takedownsLanded)
-        // console.log(strikes.takedownsAttempted)
         return strikes
 })
     .catch(error =>{
