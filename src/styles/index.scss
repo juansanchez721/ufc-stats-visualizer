@@ -101,6 +101,7 @@ body {
   position: relative;
   transition: transform 1s;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   background-color: #ffffff;
   border-radius: 5px;
   font-size: 40px;
@@ -302,6 +303,7 @@ text-align: center;
     position: relative;
     transition: transform 1s;
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
     background-color: #ffffff;
     border-radius: 5px;
     font-size: 40px;
