@@ -66,6 +66,8 @@ body {
 }
 
 #fighter-pic {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   width: 20%;
   height: 100%;
 }
@@ -101,7 +103,6 @@ body {
   position: relative;
   transition: transform 1s;
   transform-style: preserve-3d;
-  -webkit-transform: translate3d(0, 0, 0);
   -webkit-transform-style: preserve-3d;
   background-color: #ffffff;
   border-radius: 5px;
@@ -111,8 +112,12 @@ body {
 }
 
 .fighter-front {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
 }
 .fighter-back {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   font-size: 36px;
   font-weight: bolder;
   font-style: italic;
@@ -137,7 +142,8 @@ body {
   height: 100%;
   color: black;
   font-weight: bold;
-  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   display: flex;
   /* justify-content: center; */
@@ -148,6 +154,8 @@ body {
 }
 
 #fighter-img {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   background-color: rgb(120, 1, 16);
   width: 550px;
   height: 100%;
@@ -165,6 +173,8 @@ body {
 }
 
 #champ-img {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   background-color: gold;
   width: 550px;
   height: 100%;
@@ -183,6 +193,8 @@ body {
 }
 
 #fighter-info {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   color: black;
   font-size: 65px;
   /* width: 50px; */
@@ -207,6 +219,8 @@ body {
   }
 }
 .main-div-content {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   background: darkgray;
   height: 100%;
   padding: 10px;
@@ -249,6 +263,8 @@ body {
 }
 
 svg {
+  -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
   height: fit-content;
 }
 
@@ -286,6 +302,8 @@ text-align: center;
   font-size: 18px;
 
   .card-info-holder {
+    -webkit-transform-style: preserve-3d;
+-webkit-backface-visibility: hidden;
     background-color: gray;
     height: fit-content;
     width: fit-content;
@@ -303,7 +321,6 @@ text-align: center;
     position: relative;
     transition: transform 1s;
     transform-style: preserve-3d;
-    -webkit-transform: translate3d(0, 0, 0);
     -webkit-transform-style: preserve-3d;
     background-color: #ffffff;
     border-radius: 5px;
