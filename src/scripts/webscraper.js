@@ -85,7 +85,7 @@ async function getStats(name='conor-mcgregor') {
             takedownsLanded: statsDiv[2] && statsDiv[2].children.length ? statsDiv[2].children[0].data :  "0",
             takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : "0"
         }
-        console.log(strikes)
+        // console.log(strikes)
         return strikes
 })
     .catch(error =>{

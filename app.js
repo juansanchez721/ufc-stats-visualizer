@@ -32,7 +32,7 @@ app.get('/', (request, res) => {
 })
 
 app.get(`/fighters/image/:name`, async (request, response) => {
-  console.log("inside bruh")
+  console.log("inside scraper")
   axios.get(`https://www.ufc.com/athlete/${request.params.name}`)
   .then( data => {
     // console.log(data.data)
@@ -45,7 +45,7 @@ app.get(`/fighters/image/:name`, async (request, response) => {
 });
 // create route to get single book by its isbn
 app.get('/rankings', (request, response) => {
-  console.log("inside inside")
+  console.log("inside")
   // make api call using fetch
   fetch(`http://api.sportradar.us/ufc/trial/v2/en/rankings.json?api_key=${secret.apikey}`)
   .then(response => {

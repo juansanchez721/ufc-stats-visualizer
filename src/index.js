@@ -200,7 +200,7 @@ function addFlippedInfo(element) {
 function createBarChart(record, i) {
   
   let records = record.split("-").map(ele => parseInt(ele))
-  console.log(records)
+  // console.log(records)
 
   let recordObject = [
     {
@@ -276,6 +276,8 @@ function createCircleCharts(firstdata, i, category) {
   const colors = d3.scaleOrdinal(["red", "white"]);
   const radius = 75;
   const path = d3.arc().outerRadius(radius).innerRadius(50);
+  const dataBool = firstdata[0].value === 0 && firstdata[1].value === 0 
+  console.log("databool " + dataBool)
 
   const values = firstdata.map(ele =>  ele.value)
   console.log(values)
@@ -305,7 +307,7 @@ function createCircleCharts(firstdata, i, category) {
     .attr("fill", (d) => colors(d.data.value))
     .on("mouseover", function (d, i) {
       d3.select(this).transition().duration("50").attr("opacity", ".85");
-      //   console.log(d.target.__data__.data.name)
+        console.log(d.target.__data__.data.value)
       hold
         .text(`${d.target.__data__.value}`)
         .append("tspan")
@@ -315,12 +317,14 @@ function createCircleCharts(firstdata, i, category) {
         // .attr("dy", "-2em")
         .text(`${d.target.__data__.data.name}`);
 
+        const infinityBool = values[1]/values[0] === Infinity ? 1 : values[1]/values[0]
+        console.log(19/0)
         ratio
         .text(
           `${values[0] === d.target.__data__.value ? 
           (values[0]/values[1]).toFixed(2)
           : 
-          (values[1]/values[0]).toFixed(2)}`
+          (infinityBool).toFixed(2)}`
           )
           
           desc
@@ -341,7 +345,7 @@ function createCircleCharts(firstdata, i, category) {
     .attr("y", 10)
     .attr("x", -2)
     .style("font-size", ".8em")
-    .text(category);
+    .text(dataBool ? "No Data" : category);
 
 
     ///create and append legend
@@ -403,7 +407,7 @@ function createCircleCharts(firstdata, i, category) {
 }
 
 async function flipCard(element) {
-  console.log(cards)
+  // console.log(cards)
   element.classList.toggle("is-flipped");
   if (!cards[element.id].flipped) {
     const {
@@ -426,7 +430,7 @@ async function flipCard(element) {
     cards[element.id].reach = reach
     cards[element.id].record = record
 
-    console.log(cards[element.id]);
+    // console.log(cards[element.id]);
     addFlippedInfo(element);
   }
 }
