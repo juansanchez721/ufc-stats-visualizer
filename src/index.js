@@ -140,7 +140,7 @@ async function getImage(fightfight) {
 }
 
 function addFlippedInfo(element) {
-
+  debugger 
   let cardBack = element.children[1]; //grab the flip div
   let nickname = document.createElement("h1");
   nickname.textContent = `${
@@ -156,6 +156,7 @@ function addFlippedInfo(element) {
   cardBack.appendChild(nickname);
   cardBack.appendChild(mainDiv);
   // // console.log(cards[i])
+  // debugger
   const {
     strikesAttempted,
     strikesLanded,
@@ -163,7 +164,7 @@ function addFlippedInfo(element) {
     takedownsAttempted,
     record
   } = cards[element.id];
-
+// debugger
   let strikingData = [
     {
       name: "Strikes Landed",
@@ -410,6 +411,7 @@ async function flipCard(element) {
   // console.log(cards)
   element.classList.toggle("is-flipped");
   if (!cards[element.id].flipped) {
+    debugger
     const {
       strikesLanded,
       strikesAttempted,
@@ -419,7 +421,7 @@ async function flipCard(element) {
       reach,
       record
     } = await nah.getStats(cards[element.id].name);
-
+debugger
     cards[element.id].flipped = true
     cards[element.id].degree = 0
     cards[element.id].strikesLanded = strikesLanded

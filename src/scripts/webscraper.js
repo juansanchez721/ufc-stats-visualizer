@@ -39,7 +39,7 @@ const axios = require('axios')
 
 
 async function getStats(name='conor-mcgregor') {
-
+    // debugger
     let nameURL = name
     switch (name) {
         case "DANIEL-HOOKER":
@@ -66,14 +66,20 @@ async function getStats(name='conor-mcgregor') {
     const firstreach = $("#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__info > div.c-bio__info-details > div:nth-child(5) > div:nth-child(2) > div.c-bio__text")
     const secondreach = $("#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__info > div.c-bio__info-details > div:nth-child(4) > div:nth-child(2) > div.c-bio__text")
     const recordDiv = $("div.c-hero__header")
-
-    let record = recordDiv[0].children[5].children[0].data.split("•")[1].split(" ")[29]
+        // debugger
+    let temp = recordDiv[0].children[5].children[0].data.split("•")[1]
+    let record = temp ? temp.split(" ")[29] : recordDiv[0].children[5].children[0].data.split("•")[0]
+    // debugger
     let reach = firstreach[0] ? firstreach[0].children[0].data : secondreach[0].children[0].data
+    // debugger
     let nicknameText = ""
+    // debugger
     if (nicknameDiv[0].children.length){
+        // debugger
         const nickname = nicknameDiv.find('div')
         nicknameText = nickname[0].children[0].data.split('"')[1]
     } 
+    // debugger
 
      let strikes = {
             nickname: nicknameText ,
@@ -85,7 +91,8 @@ async function getStats(name='conor-mcgregor') {
             takedownsLanded: statsDiv[2] && statsDiv[2].children.length ? statsDiv[2].children[0].data :  "0",
             takedownsAttempted: statsDiv[3] && statsDiv[3].children.length ? statsDiv[3].children[0].data : "0"
         }
-        // console.log(strikes)
+        console.log(strikes)
+        // debugger
         return strikes
 })
     .catch(error =>{
