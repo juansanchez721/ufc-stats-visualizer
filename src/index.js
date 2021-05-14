@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let testobject = {};
 let cards = {};
+
 function getRankings(rankings) {
   // var mainContainer = document.getElementById("navbar");
   let dropdown = document.getElementById("weight-classes");
@@ -42,8 +43,6 @@ function getRankings(rankings) {
 
     dropdown.appendChild(new Option(`${division}`, `${division}`));
   }
-  //   console.log(testobject);
-
   dropdown.addEventListener("change", (e) => getFighters(e.target.value));
 }
 
@@ -146,35 +145,33 @@ function addFlippedInfo(element) {
 
   let cardBack = element.children[1]; //grab the flip div
 
+  let headerDiv = document.createElement("div")
+  headerDiv.classList.add("header-div")
+
   let nickname = document.createElement("h1");
   nickname.classList.add("nickname")
+  
+  let firstName = document.createElement("h1");
+  let lastName = document.createElement("h1");
 
   let fName = cards[element.id].name.split("-")[0]
   let lName = cards[element.id].name.split(/-(.+)/)[1]
 
-  if(nicknameBool){
-
-    let firstName = document.createElement("h1");
-    let lastName = document.createElement("h1");
-
-    nickname.textContent = `${
-      '"' + cards[element.id].nickname.toUpperCase() + '"'
-    }`;
+    nickname.textContent = nicknameBool ? 
+    `${ '"' + cards[element.id].nickname.toUpperCase() + '"' }`
+    :
+    `${fName + " " + lName}`
     
-    firstName.textContent = `${fName}`
-    lastName.textContent = `${lName}`
+    firstName.textContent = nicknameBool ? `${fName}` : "-"
+    lastName.textContent = nicknameBool ? `${lName}` : "-"
   
-    cardBack.appendChild(firstName);
-    cardBack.appendChild(nickname);
-    cardBack.appendChild(lastName);
-  
-  } else {
-    nickname.textContent = `${fName + " " + lName}`
-    cardBack.appendChild(nickname);
+    headerDiv.appendChild(firstName);
+    headerDiv.appendChild(nickname);
+    headerDiv.appendChild(lastName);
 
-  }
   // if (cards[element.id].nickname.length > 12) nickname.classList.add("longer-name");
 
+  cardBack.appendChild(headerDiv)
 
   let mainDiv = document.createElement("div");
   mainDiv.classList.add("main-div-content");
@@ -217,10 +214,11 @@ function addFlippedInfo(element) {
   createCircleCharts(strikingData, element.id, "Striking")
   createCircleCharts(wrestlingData, element.id, "Wrestling")
   createBarChart(record, element.id)
-  let bottom = document.createElement("div");
-  bottom.classList.add("rest-of-card");
 
-  cardBack.appendChild(bottom)
+  // let bottom = document.createElement("div");
+  // bottom.classList.add("rest-of-card");
+
+  // cardBack.appendChild(bottom)
 
 
 }
@@ -301,7 +299,7 @@ function createBarChart(record, i) {
 }
 
 function createCircleCharts(firstdata, i, category) {
-  const colors = d3.scaleOrdinal(["red", "white"]);
+  const colors = d3.scaleOrdinal(["#d20a0a", "white"]);
   const radius = 75;
   const path = d3.arc().outerRadius(radius).innerRadius(50);
   const dataBool = firstdata[0].value === 0 && firstdata[1].value === 0 
@@ -312,71 +310,79 @@ function createCircleCharts(firstdata, i, category) {
   const strikespie = d3.pie().value((d) => d.value);
 //   const takedownpie = d3.pie().value((d) => d.value);
 
-  //create and append svg for chart
-  let svg = d3
-    .select(`#main-div-${i}`)
-    .append("svg")
-    .attr("width", 175)
-    .append("g")
-    .attr(
-      "transform",
-      `translate(${Math.floor(400 / 4)}, ${Math.floor(155 / 2)})`
-    );
+  //create and append svg for 
+let ratio = null
+let desc = null
+let svg = null
+let hold = null
+  switch (category) {
+    case "Striking":
 
-  var g = svg
-    .selectAll(".arc")
-    .data(strikespie(firstdata))
-    .enter()
-    .append("g")
-    .attr("class", "arc");
-
-  g.append("path")
-    .attr("d", path)
-    .attr("fill", (d) => colors(d.data.value))
-    .on("mouseover", function (d, i) {
-      d3.select(this).transition().duration("50").attr("opacity", ".85");
-        // console.log(d.target.__data__.data.value)
-      hold
-        .text(`${d.target.__data__.value}`)
-        .append("tspan")
-        .attr("x", 0)
-        .attr("y", 20)
-        .attr("font-size", "12px")
-        // .attr("dy", "-2em")
-        .text(`${d.target.__data__.data.name}`);
-
-        const infinityBool = values[1]/values[0] === Infinity ? 1 : values[1]/values[0]
-        // console.log(19/0)
-        ratio
-        .text(
-          `${values[0] === d.target.__data__.value ? 
-          (values[0]/values[1]).toFixed(2)
-          : 
-          (infinityBool).toFixed(2)}`
-          )
-          
-          desc
-          .text(`Overall ${d.target.__data__.data.name} Ratio`)
-          .style('font-size', '14px')
-
-
-    })
-    .on("mouseout", function (d, i) {
-      d3.select(this).transition().duration("50").attr("opacity", "1");
-
-      hold.text(category);
-    });
-
-  let hold = svg
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("y", 10)
-    .attr("x", -2)
-    .style("font-size", ".8em")
-    .text(dataBool ? "No Data" : category);
-
-
-    ///create and append legend
+     svg = d3
+      .select(`#main-div-${i}`)
+      .append("svg")
+      .attr("width", 175)
+      .attr("height", 155)
+      .append("g")
+      .attr(
+        "transform",
+        `translate(${Math.floor(175 / 2)}, ${Math.floor(155 / 2)})`
+      );
+  
+    var g = svg
+      .selectAll(".arc")
+      .data(strikespie(firstdata))
+      .enter()
+      .append("g")
+      .attr("class", "arc");
+  
+    g.append("path")
+      .attr("d", path)
+      .attr("fill", (d) => colors(d.data.value))
+      .on("mouseover", function (d, i) {
+        d3.select(this).transition().duration("50").attr("opacity", ".60");
+          // console.log(d.target.__data__.data.value)
+        hold
+          .text(`${d.target.__data__.value}`)
+          .append("tspan")
+          .attr("x", 0)
+          .attr("y", 20)
+          .attr("font-size", "12px")
+          // .attr("dy", "-2em")
+          .text(`${d.target.__data__.data.name}`);
+  
+          const infinityBool = values[1]/values[0] === Infinity ? 1 : values[1]/values[0]
+          // console.log(19/0)
+          ratio
+          .text(
+            `${values[0] === d.target.__data__.value ? 
+            (values[0]/values[1]).toFixed(2)
+            : 
+            (infinityBool).toFixed(2)}`
+            )
+            
+            desc
+            .text(`Overall ${d.target.__data__.data.name} Ratio`)
+            .style('font-size', '14px')
+  
+  
+      })
+      .on("mouseout", function (d, i) {
+        d3.select(this).transition().duration("50").attr("opacity", "1");
+  
+        hold.text(category);
+      });
+  
+    hold = svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", 10)
+      .attr("x", -2)
+      .style("font-size", ".8em")
+      .text(dataBool ? "No Data" : category);
+  
+  
+        ///create and append legend
 
     var div = d3.select(`#main-div-${i}`)
     .append('div')
@@ -418,7 +424,7 @@ function createCircleCharts(firstdata, i, category) {
   //   .attr("width", 190)
   //   .attr("height", 75 )
 
-  let ratio = d3.select(`#legend-${category}-${i}`)
+  ratio = d3.select(`#legend-${category}-${i}`)
     .append("text")
     .attr("x", 100)
     .attr("y", 50)
@@ -426,12 +432,146 @@ function createCircleCharts(firstdata, i, category) {
     .style('font-size', '45px')
     .text("")
     
-    let desc = d3.select(`#legend-${category}-${i}`).append("text")
+    desc = d3.select(`#legend-${category}-${i}`).append("text")
           .attr("x", 100)
           .attr("y", 100)  
           .text("")
           .style('font-size', '14px')
 
+
+
+
+    break;
+    case "Wrestling":
+
+      ///create and append legend
+
+      var div = d3.select(`#main-div-${i}`)
+      .append('div')
+      .attr("class", "legend")
+      .attr("id", `legend-${category}-${i}`)
+      .attr("width", 175)
+      .append("svg")
+      .attr("width", 175)
+      .attr("height", 50 )
+      // .attr("height", (firstdata.length - 1) * 20)
+      .selectAll("g")
+      .data(firstdata)
+      .enter()
+      .append("g")
+      .attr("transform", function (d, i) {
+        return "translate(0," + i * 20 + ")";
+      })
+  
+    div
+      .append("rect")
+      .attr("x", 60)
+      .attr("y", 20)
+      .attr("width", 10)
+      .attr("height", 10)
+      .attr("fill", (d) => colors(d.value))
+      
+    div
+      .append("text")
+      .attr("x", 75)
+      .attr("y", 30)
+      .attr("font-size", "13px")
+      .text(function (d) {
+        return d.name;
+      })
+  
+    //   var ratio = d3
+    //   .select(`#main-div-${i}`)
+    //   .append("svg")
+    //   .attr("width", 190)
+    //   .attr("height", 75 )
+  
+    ratio = d3.select(`#legend-${category}-${i}`)
+      .append("text")
+      .style("width", "fit-content")
+      // .attr("x", 100)
+      .attr("y", 50)
+      .attr("text-anchor", "middle")
+      .style('font-size', '45px')
+      .text("")
+      
+      desc = d3.select(`#legend-${category}-${i}`).append("text")
+            // .attr("x", 100)
+            // .attr("y", 100)  
+            .text("")
+            .style('font-size', '14px')
+  
+  
+  
+
+     svg = d3
+      .select(`#main-div-${i}`)
+      .append("svg")
+      .attr("width", 175)
+      .attr("height", 155)
+      .append("g")
+      .attr(
+        "transform",
+        `translate(${Math.floor(175 / 2)}, ${Math.floor(155 / 2)})`
+      );
+  
+    var g = svg
+      .selectAll(".arc")
+      .data(strikespie(firstdata))
+      .enter()
+      .append("g")
+      .attr("class", "arc");
+  
+    g.append("path")
+      .attr("d", path)
+      .attr("fill", (d) => colors(d.data.value))
+      .on("mouseover", function (d, i) {
+        d3.select(this).transition().duration("50").attr("opacity", ".6");
+          // console.log(d.target.__data__.data.value)
+        hold
+          .text(`${d.target.__data__.value}`)
+          .append("tspan")
+          .attr("x", 0)
+          .attr("y", 20)
+          .attr("font-size", "12px")
+          // .attr("dy", "-2em")
+          .text(`${d.target.__data__.data.name}`);
+  
+          const infinityBool = values[1]/values[0] === Infinity ? 1 : values[1]/values[0]
+          // console.log(19/0)
+          ratio
+          .text(
+            `${values[0] === d.target.__data__.value ? 
+            (values[0]/values[1]).toFixed(2)
+            : 
+            (infinityBool).toFixed(2)}`
+            )
+            
+            desc
+            .text(`Overall ${d.target.__data__.data.name} Ratio`)
+            .style('font-size', '14px')
+  
+  
+      })
+      .on("mouseout", function (d, i) {
+        d3.select(this).transition().duration("50").attr("opacity", "1");
+  
+        hold.text(category);
+      });
+  
+    hold = svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", 10)
+      .attr("x", -2)
+      .style("font-size", ".8em")
+      .text(dataBool ? "No Data" : category);
+  
+  
+    break;
+  }
+ 
+  
 }
 
 async function flipCard(element) {
