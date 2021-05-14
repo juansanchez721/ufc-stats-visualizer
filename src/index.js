@@ -139,7 +139,7 @@ async function getImage(fightfight) {
 }
 
 function addFlippedInfo(element) {
-  console.log(cards[element.id])
+  // console.log(cards[element.id])
   // debugger
   let nicknameBool =cards[element.id].nickname ? true : false
 
