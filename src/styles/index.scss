@@ -118,17 +118,22 @@ body {
 .fighter-back {
   -webkit-transform-style: preserve-3d;
 -webkit-backface-visibility: hidden;
-  font-size: 36px;
-  font-weight: bolder;
-  font-style: italic;
-  display: flex;
-  flex-direction: column;
-  transform: rotateY(180deg);
-  align-items: center;
-  h1 {
+font-weight: bolder;
+font-style: italic;
+display: flex;
+flex-direction: column;
+transform: rotateY(180deg);
+align-items: center;
+h1.nickname{
+    font-size: 30px;
+    color: maroon;
     height: fit-content;
     width: fit-content;
-    margin: 20px 0px;
+}
+h1 {
+    font-size: 24px;
+    height: fit-content;
+    width: fit-content;
   }
 }
 

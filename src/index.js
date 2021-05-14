@@ -133,27 +133,54 @@ async function getImage(fightfight) {
     fightStats.appendChild(fighterfront);
     fightStats.appendChild(fighterback);
     dContainer.appendChild(fightStats);
-    fightStats.addEventListener("click", (event) => {
+    fightStats.addEventListener("mousedown", (event) => {
       flipCard(fightStats);
     });
   });
 }
 
 function addFlippedInfo(element) {
-  debugger 
+  console.log(cards[element.id])
+  // debugger
+  let nicknameBool =cards[element.id].nickname ? true : false
+
   let cardBack = element.children[1]; //grab the flip div
+
   let nickname = document.createElement("h1");
-  nickname.textContent = `${
-    cards[element.id].nickname
-      ? '"' + cards[element.id].nickname.toUpperCase() + '"'
-      : cards[element.id].name.split(/-(.+)/)[1]
-  }`;
+  nickname.classList.add("nickname")
+
+  let fName = cards[element.id].name.split("-")[0]
+  let lName = cards[element.id].name.split(/-(.+)/)[1]
+
+  if(nicknameBool){
+
+    let firstName = document.createElement("h1");
+    let lastName = document.createElement("h1");
+
+    nickname.textContent = `${
+      '"' + cards[element.id].nickname.toUpperCase() + '"'
+    }`;
+    
+    firstName.textContent = `${fName}`
+    lastName.textContent = `${lName}`
+  
+    cardBack.appendChild(firstName);
+    cardBack.appendChild(nickname);
+    cardBack.appendChild(lastName);
+  
+  } else {
+    nickname.textContent = `${fName + " " + lName}`
+    cardBack.appendChild(nickname);
+
+  }
+  // if (cards[element.id].nickname.length > 12) nickname.classList.add("longer-name");
+
 
   let mainDiv = document.createElement("div");
   mainDiv.classList.add("main-div-content");
   mainDiv.setAttribute("id", `main-div-${element.id}`);
 
-  cardBack.appendChild(nickname);
+
   cardBack.appendChild(mainDiv);
   // // console.log(cards[i])
   // debugger
@@ -278,10 +305,10 @@ function createCircleCharts(firstdata, i, category) {
   const radius = 75;
   const path = d3.arc().outerRadius(radius).innerRadius(50);
   const dataBool = firstdata[0].value === 0 && firstdata[1].value === 0 
-  console.log("databool " + dataBool)
+  // console.log("databool " + dataBool)
 
   const values = firstdata.map(ele =>  ele.value)
-  console.log(values)
+  // console.log(values)
   const strikespie = d3.pie().value((d) => d.value);
 //   const takedownpie = d3.pie().value((d) => d.value);
 
@@ -308,7 +335,7 @@ function createCircleCharts(firstdata, i, category) {
     .attr("fill", (d) => colors(d.data.value))
     .on("mouseover", function (d, i) {
       d3.select(this).transition().duration("50").attr("opacity", ".85");
-        console.log(d.target.__data__.data.value)
+        // console.log(d.target.__data__.data.value)
       hold
         .text(`${d.target.__data__.value}`)
         .append("tspan")
@@ -319,7 +346,7 @@ function createCircleCharts(firstdata, i, category) {
         .text(`${d.target.__data__.data.name}`);
 
         const infinityBool = values[1]/values[0] === Infinity ? 1 : values[1]/values[0]
-        console.log(19/0)
+        // console.log(19/0)
         ratio
         .text(
           `${values[0] === d.target.__data__.value ? 
@@ -411,7 +438,7 @@ async function flipCard(element) {
   // console.log(cards)
   element.classList.toggle("is-flipped");
   if (!cards[element.id].flipped) {
-    debugger
+    // debugger
     const {
       strikesLanded,
       strikesAttempted,
@@ -421,7 +448,7 @@ async function flipCard(element) {
       reach,
       record
     } = await nah.getStats(cards[element.id].name);
-debugger
+// debugger
     cards[element.id].flipped = true
     cards[element.id].degree = 0
     cards[element.id].strikesLanded = strikesLanded
