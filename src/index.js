@@ -36,12 +36,15 @@ function getRankings(rankings) {
   // console.log(rankings)
   // dropdown.setAttribute("id", "weight-classes")
   for (var i = 0; i < rankings.length; i++) {
-    let division = rankings[i].name.split("_").join(" "); //weight class name
-    // console.log(division)
-    let competitorArray = Object.values(rankings[i].competitor_rankings);
-    testobject[division] = competitorArray;
+    if(i === 5 || i === 6 || i === 7 || i === 9 || i === 10 || i === 11 || i === 12) continue
 
-    dropdown.appendChild(new Option(`${division}`, `${division}`));
+      let division = rankings[i].name.split("_").join(" "); //weight class name
+      // console.log(division)
+      let competitorArray = Object.values(rankings[i].competitor_rankings);
+      testobject[division] = competitorArray;
+      
+      dropdown.appendChild(new Option(`${division}`, `${division}`));
+    
   }
   dropdown.addEventListener("change", (e) => getFighters(e.target.value));
 }

@@ -35,7 +35,7 @@ app.get(`/fighters/image/:name`, async (request, response) => {
   console.log("inside scraper")
   axios.get(`https://www.ufc.com/athlete/${request.params.name}`)
   .then( data => {
-    // console.log(data.data)
+    console.log(data.data)
     return response.json(data.data)
 
   })
