@@ -5,7 +5,7 @@ const axios = require('axios')
 // const cheerio = require('cheerio') 
 // const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
- async function getImgURL(name) {
+ function getImgURL(name) {
 
     let nameURL = name
     switch (name) {
@@ -24,14 +24,14 @@ const axios = require('axios')
        
     }
 
-    
-    return await axios.get(`/fighters/image/${nameURL}`)
+    return axios.get(`/fighters/image/${nameURL}`)
     .then(res =>{
+        // debugger
 
     const $ = cheerio.load(res.data)
-    const tempImage = $('#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__image > img')
+    // const tempImage = $('#block-mainpagecontent > div > div > div.l-main__content > div.l-container--no-spacing-vertical-bottom > div > div > div > div.c-bio__image > img')
     const image = $('div.c-bio__image > img')
-    debugger
+    // debugger
     return image[0].attribs.src
 
     })

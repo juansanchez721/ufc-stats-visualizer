@@ -36,7 +36,7 @@ function getRankings(rankings) {
   // console.log(rankings)
   // dropdown.setAttribute("id", "weight-classes")
   for (var i = 0; i < rankings.length; i++) {
-    if(i === 5 || i === 6 || i === 7 || i === 9 || i === 10 || i === 11 || i === 12) continue
+    // if(i === 5 || i === 6 || i === 7 || i === 9 || i === 10 || i === 11 || i === 12) continue
 
       let division = rankings[i].name.split("_").join(" "); //weight class name
       // console.log(division)
@@ -49,10 +49,10 @@ function getRankings(rankings) {
   dropdown.addEventListener("change", (e) => getFighters(e.target.value));
 }
 
-const getFighters = async (division) => {
+const getFighters =  (division) => {
   let dropdown = document.getElementById("weight-classes");
   dropdown.disabled = true
-
+  
   cards = {};
   let names = [];
   testobject[division].forEach((fighter, i) => {
@@ -74,20 +74,18 @@ const getFighters = async (division) => {
   });
   // console.log(cards)
 
-  await getImage(Object.keys(cards));
-  // console.log(fightfight)
-
-  dropdown.disabled = false
+   getImage(Object.keys(cards))
+   .then(() => dropdown.disabled = false)
 
 };
 
 async function getImage(fightfight) {
-  let tempName = "";
+  // let tempArr = [];
   document.getElementById("loading").style.display = "block";
+  // debugger
   for (let i = 0; i < fightfight.length; i++) {
     cards[i]["image"] = await nah.getImgURL(cards[i].name);
   }
-
   document.getElementById("loading").style.display = "none";
 
   let dContainer = document.getElementById("data-container-inner");
