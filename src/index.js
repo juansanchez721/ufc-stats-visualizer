@@ -242,15 +242,15 @@ function createBarChart(record, i) {
 
   let recordObject = [
     {
-      name: "Wins",
+      name: records[0] === 1 ? "Win" : "Wins",
       value: records[0]
     },
     {
-      name: "Losses",
+      name:  records[1] === 1 ? "Loss" : "Losses",
       value: records[1]
     },
      {
-      name: "Draws",
+      name:  records[2] === 1 ? "Draw" :  "Draws",
       value: records[2]
     },
 ]
