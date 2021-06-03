@@ -5,7 +5,7 @@ const axios = require('axios')
 // const cheerio = require('cheerio') 
 // const page_url = 'https://www.ufc.com/athlete/khabib-nurmagomedov'
 
- function getImgURL(name) {
+ async function getImgURL(name) {
 
     let nameURL = name
     switch (name) {
@@ -24,7 +24,7 @@ const axios = require('axios')
        
     }
 
-    return axios.get(`/fighters/image/${nameURL}`)
+    return await axios.get(`/fighters/image/${nameURL}`)
     .then(res =>{
         // debugger
 

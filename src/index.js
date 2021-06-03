@@ -80,12 +80,23 @@ const getFighters =  (division) => {
 };
 
 async function getImage(fightfight) {
-  // let tempArr = [];
+  let tempArr = [];
   document.getElementById("loading").style.display = "block";
-  // debugger
-  for (let i = 0; i < fightfight.length; i++) {
-    cards[i]["image"] = await nah.getImgURL(cards[i].name);
+  debugger
+  
+  for(let i = 0; i < fightfight.length; i++){
+    // cards[fighter]["image"] = 
+    tempArr.push(nah.getImgURL(cards[i].name));
   }
+
+  await Promise.all(tempArr)
+  .then((res) => {
+    debugger
+    for(let i = 0; i < res.length; i++){
+      cards[i]["image"] = res[i] 
+    }
+  })
+
   document.getElementById("loading").style.display = "none";
 
   let dContainer = document.getElementById("data-container-inner");
