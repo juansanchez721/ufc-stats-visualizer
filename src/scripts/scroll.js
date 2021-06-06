@@ -13,18 +13,18 @@ export const scrollerInit = () => {
 
   export const scrollbar = (direction) => {
 
-    let dataContainerInner = document.getElementById("data-container")
-
+    let dataContainer = document.getElementById("data-container")
+    
     switch (direction) {
         case "left":
-          console.log(dataContainerInner.scrollWidth + "you wanna scroll left?")  
+          console.log(dataContainer.offsetWidth + "you wanna scroll left?")  
+          dataContainer.scrollLeft = dataContainer.scrollLeft - (dataContainer.offsetWidth/11)
           debugger
-          dataContainerInner.scrollLeft = 200
           break;
         case "right":
-          console.log(dataContainerInner.scrollWidth)  
+          console.log(dataContainer.scrollWidth)  
+          dataContainer.scrollLeft = dataContainer.scrollLeft + (dataContainer.offsetWidth/11)
           debugger
-          dataContainerInner.scrollLeft = -200
 
       break;
     
