@@ -14,9 +14,9 @@ export const scrollerInit = () => {
   document
     .getElementById("data-container")
     .addEventListener("wheel", (e) => {
-      // if (e.type != "wheel") {
-      //   return;
-      // }
+      if (e.type != "wheel") {
+        return;
+      }
       // if( scrollPositionIsAtTheEnd ) {
       //   return;
       // }
@@ -29,8 +29,16 @@ export const scrollerInit = () => {
 
 const elementScroll = (e) => {
   let delta = (e.deltaY || -e.wheelDelta || e.detail) >> 10 || 1;
-  delta = delta * -300;
+  let shiftAmount =   document.getElementById("data-container").clientWidth > 880 ? 880 : 390;
+
+  delta = delta * (-shiftAmount);
+  console.log(delta)
   document.getElementById("data-container").scrollLeft -= delta;
+
+  // if(start < 2000) {
+  //     window.requestAnimationFrame(elementScroll(e, start+500))
+  // }
+
 }
 
 export const scrollbar = (direction) => {

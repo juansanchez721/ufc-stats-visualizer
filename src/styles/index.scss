@@ -88,7 +88,7 @@ body {
   width: 90%;
   background-color: green;
   height: -webkit-fill-available;
-  overflow: hidden;
+  overflow-x: scroll;
   white-space: nowrap;
   display: flex;
   /* justify-content: center; */
@@ -96,7 +96,9 @@ body {
   /* align-items: center; */
   scroll-behavior: smooth;
 }
-
+#data-container::-webkit-scrollbar{
+  display: none;
+}
 #data-container-inner{
   display: flex;
   flex-direction: row;
