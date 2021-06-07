@@ -4,7 +4,7 @@ require("babel-polyfill");
 
 // import * as WebScrap from './scripts/webscraper'
 const scraper = require("./scripts/webscraper");
-const scroll = require("./scripts/scroll")
+const scroll = require("./scripts/scroll");
 const axios = require("axios");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.classList.toggle("is-flipped");
   });
 
-  scroll.scrollerInit()
+  scroll.scrollerInit();
 
   axios
     .get(`/rankings`)
@@ -44,7 +44,10 @@ function getRankings(rankings) {
 
     dropdown.appendChild(new Option(`${division}`, `${division}`));
   }
-  dropdown.addEventListener("change", (e) => getFighters(e.target.value));
+  dropdown.addEventListener("change", (e) => {
+    e.preventDefault()
+    getFighters(e.target.value)
+  });
 }
 
 const getFighters = (division) => {
@@ -72,29 +75,45 @@ const getFighters = (division) => {
   });
   // console.log(cards)
 
-  getImage(Object.keys(cards)).then(() => (dropdown.disabled = false));
+  getImage(Object.keys(cards))
+    .then(() => (dropdown.disabled = false))
+    .then(() => {
+      document.getElementById("data-container").scrollLeft = 0;
+    });
 };
 
 async function getImage(fightfight) {
-  let tempArr = [];
-  document.getElementById("loading").style.display = "block";
-  document.getElementById("data-container-inner").classList.toggle("freeze")
-  // debugger;
 
+  //Initialize array to hold list of promises
+  let tempArr = []; 
+  
+  //display the loading cymbol when user selects dropdown option
+  document.getElementById("loading").style.display = "block";
+  //add class to main body element that removes and adds to the DOM - will be toggled at the end
+  document.getElementById("data-container-inner").classList.toggle("freeze");
+
+  //loop through array argument that contains keys to overwritten 
+  //global Object that holds chosen weight division athletes 
   for (let i = 0; i < fightfight.length; i++) {
     // cards[fighter]["image"] =
+    //push promises into local array variable
     tempArr.push(scraper.getImgURL(cards[i].name));
   }
 
+  //Pause execution of the rest of the function until all promises are resolved/rejected concurrently
+  //The Duration depends on the longest time needed to wait for one of the requests made to the webscraper
+  //Significantly faster than waiting for each individual request to return, hence the array of promises
   await Promise.all(tempArr).then((res) => {
     // debugger;
     for (let i = 0; i < res.length; i++) {
+      //after all promises are resolved, an array of responses is returned.
+      //Key into global variable cards and save a value for the image attribute
       cards[i]["image"] = res[i];
     }
   });
 
   document.getElementById("loading").style.display = "none";
-  document.getElementById("data-container-inner").classList.toggle("freeze")
+  document.getElementById("data-container-inner").classList.toggle("freeze");
 
   let dContainer = document.getElementById("data-container-inner");
   dContainer.innerHTML = "";
@@ -148,8 +167,9 @@ async function getImage(fightfight) {
 }
 
 function addFlippedInfo(element) {
-  // console.log(cards[element.id])
-  // debugger
+  console.log(element)
+  debugger
+  document.getElementById(`${element.id}`).disabled = true
   let nicknameBool = cards[element.id].nickname ? true : false;
 
   let cardBack = element.children[1]; //grab the flip div
@@ -225,6 +245,8 @@ function addFlippedInfo(element) {
   createCircleCharts(strikingData, element.id, "Striking");
   createCircleCharts(wrestlingData, element.id, "Wrestling");
   createBarChart(record, element.id);
+
+  document.getElementById(`${element.id}`).disabled = false
 
   // let bottom = document.createElement("div");
   // bottom.classList.add("rest-of-card");
@@ -350,8 +372,8 @@ function createCircleCharts(firstdata, i, category) {
         .attr("d", path)
         .attr("fill", (d) => colors(d.data.value))
         .on("mouseover", function (d, i) {
-
-          let hundredBool = d.target.__data__.value/d.target.__data__.data.total === 1
+          let hundredBool =
+            d.target.__data__.value / d.target.__data__.data.total === 1;
           d3.select(this).transition().duration("50").attr("opacity", ".60");
           // console.log(d.target.__data__.data.value)
           hold
@@ -363,11 +385,15 @@ function createCircleCharts(firstdata, i, category) {
             // .attr("dy", "-2em")
             .text(`${d.target.__data__.data.name}`);
 
-           //Percentage text element on Legend
-           ratio.text(
-            hundredBool ? "100%" :
-             ((d.target.__data__.value / d.target.__data__.data.total) *100).toFixed(1) + `%`
-         );
+          //Percentage text element on Legend
+          ratio.text(
+            hundredBool
+              ? "100%"
+              : (
+                  (d.target.__data__.value / d.target.__data__.data.total) *
+                  100
+                ).toFixed(1) + `%`
+          );
 
           desc
             .text(`${d.target.__data__.data.name} Percentage`)
@@ -560,7 +586,8 @@ function createCircleCharts(firstdata, i, category) {
         .attr("d", path)
         .attr("fill", (d) => colors(d.data.value))
         .on("mouseover", function (d, i) {
-          let hundredBool = d.target.__data__.value/d.target.__data__.data.total === 1
+          let hundredBool =
+            d.target.__data__.value / d.target.__data__.data.total === 1;
           // debugger
           d3.select(this).transition().duration("50").attr("opacity", ".60");
           // console.log(d.target.__data__.data.value)
@@ -575,9 +602,12 @@ function createCircleCharts(firstdata, i, category) {
 
           //Percentage text element on Legend
           ratio.text(
-             hundredBool ? "100%" :
-             ((d.target.__data__.value / d.target.__data__.data.total) *100).toFixed(1) + `%`
-
+            hundredBool
+              ? "100%"
+              : (
+                  (d.target.__data__.value / d.target.__data__.data.total) *
+                  100
+                ).toFixed(1) + `%`
           );
 
           desc
@@ -611,7 +641,7 @@ function createCircleCharts(firstdata, i, category) {
 }
 
 async function flipCard(element) {
-  // console.log(cards)
+  console.log(cards)
   element.classList.toggle("is-flipped");
   if (!cards[element.id].flipped) {
     // debugger
@@ -639,5 +669,3 @@ async function flipCard(element) {
     addFlippedInfo(element);
   }
 }
-
-

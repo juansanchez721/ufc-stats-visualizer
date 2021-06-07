@@ -32,7 +32,7 @@ const elementScroll = (e) => {
   let shiftAmount =   document.getElementById("data-container").clientWidth > 880 ? 880 : 390;
 
   delta = delta * (-shiftAmount);
-  console.log(delta)
+  // console.log(delta)
   document.getElementById("data-container").scrollLeft -= delta;
 
   // if(start < 2000) {
@@ -45,8 +45,8 @@ export const scrollbar = (direction) => {
   let dataContainer = document.getElementById("data-container");
 
   let shiftAmount = dataContainer.clientWidth > 880 ? 880 : 440;
-  console.log(dataContainer.scrollLeft);
-  console.log(shiftAmount);
+  // console.log(dataContainer.scrollLeft);
+  // console.log(shiftAmount);
 
   switch (direction) {
     case "left":
