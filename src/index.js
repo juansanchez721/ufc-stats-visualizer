@@ -8,6 +8,8 @@ const scroll = require("./scripts/scroll");
 const axios = require("axios");
 
 document.addEventListener("DOMContentLoaded", () => {
+
+
   var card = document.querySelector(".demo-card");
   card.addEventListener("click", function () {
     card.classList.toggle("is-flipped");
@@ -52,6 +54,7 @@ function getRankings(rankings) {
 
 const getFighters = (division) => {
   let dropdown = document.getElementById("weight-classes");
+  document.getElementById("choose-weight-class").disabled = true
   dropdown.disabled = true;
 
   cards = {};
@@ -79,7 +82,12 @@ const getFighters = (division) => {
     .then(() => (dropdown.disabled = false))
     .then(() => {
       document.getElementById("data-container").scrollLeft = 0;
-    });
+    })
+    .then(() => {
+      debugger
+      document.getElementById("arrows").style.display = "flex"
+    })
+
 };
 
 async function getImage(fightfight) {
@@ -169,7 +177,6 @@ async function getImage(fightfight) {
 function addFlippedInfo(element) {
   console.log(element)
   debugger
-  document.getElementById(`${element.id}`).disabled = true
   let nicknameBool = cards[element.id].nickname ? true : false;
 
   let cardBack = element.children[1]; //grab the flip div
@@ -246,7 +253,6 @@ function addFlippedInfo(element) {
   createCircleCharts(wrestlingData, element.id, "Wrestling");
   createBarChart(record, element.id);
 
-  document.getElementById(`${element.id}`).disabled = false
 
   // let bottom = document.createElement("div");
   // bottom.classList.add("rest-of-card");
@@ -641,9 +647,12 @@ function createCircleCharts(firstdata, i, category) {
 }
 
 async function flipCard(element) {
-  console.log(cards)
+  // console.log(cards)
+  // document.getElementById().disabled = true
+  
   element.classList.toggle("is-flipped");
   if (!cards[element.id].flipped) {
+    document.getElementById(`${element.id}`).style.pointerEvents = "none";
     // debugger
     const {
       strikesLanded,
@@ -667,5 +676,8 @@ async function flipCard(element) {
 
     // console.log(cards[element.id]);
     addFlippedInfo(element);
+    document.getElementById(`${element.id}`).style.pointerEvents = "all";
+
   }
+
 }

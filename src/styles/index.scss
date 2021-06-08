@@ -86,6 +86,7 @@ body {
   color: white;
   width: 90%;
   height: -webkit-fill-available;
+  height: 100%;
   overflow-x: scroll;
   white-space: nowrap;
   display: flex;
@@ -93,6 +94,7 @@ body {
   flex-direction: column;
   /* align-items: center; */
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 #data-container::-webkit-scrollbar{
   display: none;
@@ -394,31 +396,11 @@ text-align: center;
   pointer-events: none;
 }
 
-::-webkit-scrollbar {
-  width: 20px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-::-webkit-scrollbar-thumb::after {
-  content: "yo";
-}
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.arrows {
+#arrows {
   width: 180px;
   height: 10%;
-  display: flex;
+  display: none;
   justify-content: space-around;
   /* background-color: blue; */
   span {
