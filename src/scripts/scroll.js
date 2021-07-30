@@ -52,12 +52,9 @@ export const scrollbar = (direction) => {
     case "left":
       // console.log(dataContainer.offsetWidth + "you wanna scroll left?")
       dataContainer.scrollLeft = dataContainer.scrollLeft - shiftAmount;
-      debugger;
       break;
     case "right":
       dataContainer.scrollLeft = dataContainer.scrollLeft + shiftAmount;
-      debugger;
-
       break;
 
     default:

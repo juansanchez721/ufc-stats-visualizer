@@ -84,16 +84,15 @@ const getFighters = (division) => {
       document.getElementById("data-container").scrollLeft = 0;
     })
     .then(() => {
-      debugger
       document.getElementById("arrows").style.display = "flex"
     })
 
 };
 
-async function getImage(fightfight) {
+async function getImage(keys) {
 
   //Initialize array to hold list of promises
-  let tempArr = []; 
+  let promiseArr = []; 
   
   //display the loading cymbol when user selects dropdown option
   document.getElementById("loading").style.display = "block";
@@ -102,16 +101,16 @@ async function getImage(fightfight) {
 
   //loop through array argument that contains keys to overwritten 
   //global Object that holds chosen weight division athletes 
-  for (let i = 0; i < fightfight.length; i++) {
+  for (let i = 0; i < keys.length; i++) {
     // cards[fighter]["image"] =
     //push promises into local array variable
-    tempArr.push(scraper.getImgURL(cards[i].name));
+    promiseArr.push(scraper.getImgURL(cards[i].name));
   }
 
   //Pause execution of the rest of the function until all promises are resolved/rejected concurrently
   //The Duration depends on the longest time needed to wait for one of the requests made to the webscraper
   //Significantly faster than waiting for each individual request to return, hence the array of promises
-  await Promise.all(tempArr).then((res) => {
+  await Promise.all(promiseArr).then((res) => {
     // debugger;
     for (let i = 0; i < res.length; i++) {
       //after all promises are resolved, an array of responses is returned.
@@ -175,8 +174,7 @@ async function getImage(fightfight) {
 }
 
 function addFlippedInfo(element) {
-  console.log(element)
-  debugger
+  // console.log(element)
   let nicknameBool = cards[element.id].nickname ? true : false;
 
   let cardBack = element.children[1]; //grab the flip div
