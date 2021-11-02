@@ -28,7 +28,7 @@ app.get("/", (request, res) => {
 });
 
 app.get(`/fighters/image/:name`, async (request, response) => {
-  console.log("inside scraper");
+  // console.log("inside scraper");
   axios
     .get(`https://www.ufc.com/athlete/${request.params.name}`)
     .then((data) => {
@@ -44,16 +44,7 @@ app.get(`/fighters/image/:name`, async (request, response) => {
 app.get("/rankings", (request, response) => {
   console.log("inside");
   // make api call using fetch
-  fetch(
-    `http://api.sportradar.us/ufc/trial/v2/en/rankings.json?api_key=${secret.apikey}`
-  )
-    // .then((response) => {
-    //   if (!response.ok) {
-    //     throw new Error("This is an error");
-    //   } else {
-    //     return response;
-    //   }
-    // })
+  fetch(`http://api.sportradar.us/ufc/trial/v2/en/rankings.json?api_key=${secret.apikey}`)
     .then((response) => {
       return response.text();
     })

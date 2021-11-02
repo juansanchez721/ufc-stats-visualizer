@@ -2,28 +2,27 @@ import "./styles/index.scss";
 import "./styles/reset.scss";
 require("babel-polyfill");
 
-// import * as WebScrap from './scripts/webscraper'
 const scraper = require("./scripts/webscraper");
 const scroll = require("./scripts/scroll");
 const axios = require("axios");
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  scroll.scrollerInit();
 
   var card = document.querySelector(".demo-card");
   card.addEventListener("click", function () {
     card.classList.toggle("is-flipped");
   });
 
-  scroll.scrollerInit();
 
   axios
     .get(`/rankings`)
-    .then((response) => {
+      .then((response) => {
       const rankings = response.data.rankings;
       getRankings(rankings);
     })
-    .catch(function (error) {
+      .catch(function (error) {
       console.log(error.response);
     });
 });

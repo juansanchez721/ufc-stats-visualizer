@@ -1,3 +1,5 @@
+@import './loader.scss';
+@import './keyframes.scss';
 $main-red: #d20a0a;
 
 body {
@@ -112,6 +114,7 @@ body {
   perspective: 4200px;
   /* width: fit-content; */
   height: 100%;
+  position: relative;
 }
 
 
@@ -272,15 +275,6 @@ h1 {
     color: $main-red;
     margin-left: 5px;
     animation: spin 2s linear infinite;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 

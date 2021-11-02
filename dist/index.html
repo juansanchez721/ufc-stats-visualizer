@@ -1,106 +1,148 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="icon" type="image/png" href="favicon.ico"/>
+  <head>
+    <link rel="icon" type="image/png" href="favicon.ico" />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    
+
     <meta property="og:title" content="UFC Stats Visualizer" />
     <meta name="image" property="og:image" content="UFCStatsVisualizer.png" />
-    <meta property="og:description" content="The UFC Stats Visualizer allows users to view individual fighter stats"/>
-    <meta property="og:url" content="https://ufc-stats-visualizer.herokuapp.com/"/>
+    <meta
+      property="og:description"
+      content="The UFC Stats Visualizer allows users to view individual fighter stats"
+    />
+    <meta
+      property="og:url"
+      content="https://ufc-stats-visualizer.herokuapp.com/"
+    />
 
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    
-    
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./main.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+      integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
+      crossorigin="anonymous"
+    />
     <title>UFC stats visualizer</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="./main.js"></script>
 
     <div class="body-container">
-        <div id="navbar">
-            <div class="drop-down-loading" >
+      <div id="navbar">
+        <div class="drop-down-loading">
+          <select id="weight-classes">
+            <option id="choose-weight-class">Choose Weight Class</option>
+          </select>
+          <p id="loading">
+            loading
 
-                <select id="weight-classes">
-                    <option id = "choose-weight-class">Choose Weight Class</option>
-                </select>
-                <p id="loading" >loading  
-
-                    <i class="fas fa-spinner"></i>
-                </p>
-            </div>
-                <div id="logo">
-
-                  <h1>
-                      UFC 
-                    </h1> 
-                    <p>stats visualizer</p>
-                </div>
+            <i class="fas fa-spinner"></i>
+          </p>
         </div>
-        <div class="main-content">
-            <div id="data-container">
-                    <div id="data-container-inner">
+        <div id="logo">
+          <h1>UFC</h1>
+          <p>stats visualizer</p>
+        </div>
+      </div>
+      <div class="main-content">
+        <div id="data-container">
+          <div id="data-container-inner">
+            <span class="welcome-div">
+              <p>welcome to the UFC stats visualizer.</p>
+              <p>
+                this visualizer utilizes SportRadar's UFC API to obtain the
+                current top ten rankings of each division
+              </p>
+              <p>
+                in addition, a custom webscraper obtains athlete data from the
+                official UFC website
+              </p>
+              <br />
+              <!-- <p>* select weight classes are only available at this time *</p> -->
 
-                        <span class="welcome-div" >
-                            <p>welcome to the UFC stats visualizer.</p>
-                            <p>this visualizer utilizes SportRadar's UFC API to obtain the current top ten rankings of each division</p>
-                            <p>in addition, a custom webscraper obtains athlete data from the official UFC website</p>
-                            <br/>
-                            <!-- <p>* select weight classes are only available at this time *</p> -->
+              <p>
+                * webscraper speed can vary depending on internet latency and
+                traffic on the UFC's website *
+              </p>
+              <p>your patience is greatly appreciated!</p>
+              <br />
 
-                            <p>* webscraper speed can vary depending on internet latency and traffic on the UFC's website *</p>
-                            <p>your patience is greatly appreciated!</p>
-                            <br/>
-                            
-                            
-                            <span class="card-info-holder">
-                                
-                                <span class="demo-card" >
-                                    
-                                    <span class="card__face card-front" > <i class="fas fa-arrow-right"></i> </span>
-                                    <span class="card__face card-back"></span>
-                                    
-                                </span>
-                                
-                                <span class="demo-info">
-                                    <p><i class="fas fa-chevron-down"></i>  select a weight class from the dropdown above</p>
-                                    <p><i class="fas fa-spinner"></i>  loading symbol will appear as webscraper retrieves data</p>
-                                    <p><i class="far fa-hand-pointer"></i>  click on a card to flip it over</p>
-                                    <p><i class="far fa-square"></i> hover over each chart for indepth info</p>
-                                </span>
-                            </span>
-                            <!-- <p>  </p> -->
-                        </span>
-                        
-                        
-                        
-                        
-                    </div>
-                </div>
-                <div id="arrows">
-                    <span id="left-arrow"><i class="fas fa-chevron-left"></i></span>
-                    <span id = "right-arrow"><i class="fas fa-chevron-right"></i></span>
-                </div>
-                </div>
-                <div id="footer">
-                    
-                    <h1><a href="https://github.com/juansanchez721" target="_blank" > Github </a></h1>
-                    <h1><a href="https://www.linkedin.com/in/juan-sanchez-24a68b113/" target="_blank" > LinkedIn </a></h1>
-                    <h1><a href="https://angel.co/u/juan-sanchez-41" target="_blank" > AngelList </a> </h1>
-                    <h1><a href="https://juansanchez721.github.io/" target="_blank" > Portfolio </a> </h1>
+              <span class="card-info-holder">
+                <span class="demo-card">
+                  <span class="card__face card-front">
+                    <i class="fas fa-arrow-right"></i>
+                  </span>
+                  <span class="card__face card-back"></span>
+                </span>
 
-                </div>
+                <span class="demo-info">
+                  <p>
+                    <i class="fas fa-chevron-down"></i> select a weight class
+                    from the dropdown above
+                  </p>
+                  <p>
+                    <i class="fas fa-spinner"></i> loading symbol will appear as
+                    webscraper retrieves data
+                  </p>
+                  <p>
+                    <i class="far fa-hand-pointer"></i> click on a card to flip
+                    it over
+                  </p>
+                  <p>
+                    <i class="far fa-square"></i> hover over each chart for
+                    indepth info
+                  </p>
+                </span>
+              </span>
+              <!-- <p>  </p> -->
+            </span>
+            <div class="loader">
+                <p>octagon here</p>
+                <img src="https://img.icons8.com/fluency-systems-regular/96/000000/octagon.png"/>
             </div>
-        </body>
+          </div>
+        </div>
+        <div id="arrows">
+          <span id="left-arrow"><i class="fas fa-chevron-left"></i></span>
+          <span id="right-arrow"><i class="fas fa-chevron-right"></i></span>
+        </div>
+      </div>
+      <div id="footer">
+        <h1>
+          <a href="https://github.com/juansanchez721" target="_blank">
+            Github
+          </a>
+        </h1>
+        <h1>
+          <a
+            href="https://www.linkedin.com/in/juan-sanchez-24a68b113/"
+            target="_blank"
+          >
+            LinkedIn
+          </a>
+        </h1>
+        <h1>
+          <a href="https://angel.co/u/juan-sanchez-41" target="_blank">
+            AngelList
+          </a>
+        </h1>
+        <h1>
+          <a href="https://juansanchez721.github.io/" target="_blank">
+            Portfolio
+          </a>
+        </h1>
+      </div>
+    </div>
+  </body>
 </html>
