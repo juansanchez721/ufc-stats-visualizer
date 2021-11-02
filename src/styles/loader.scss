@@ -1,15 +1,26 @@
+@import './colors.scss';
+
 .loader {
     height: 100%;
     width: 100%;
     position: absolute;
     font-size: 32px;
-    background-color: brown;
+    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    #logo {
+    .loader-logo {
         position: absolute;
+    }
+
+    h1 {
+        font-size: 56px;
+        color: $main-red;
+        font-style: italic;
+    }
+    p{
+
     }
     img {
        height: 65vh;
