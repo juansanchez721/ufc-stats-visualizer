@@ -1,9 +1,18 @@
 .loader {
+    height: 100%;
+    width: 100%;
     position: absolute;
-    font-size: 72px;
+    font-size: 32px;
     background-color: brown;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #logo {
+        position: absolute;
+    }
     img {
-        height: 150px;
-        width: 150px;
+       height: 65vh;
+       animation: spin 6s linear infinite;
     }
 }
