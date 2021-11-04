@@ -1,9 +1,26 @@
+
 .loader {
+    height: 100%;
+    width: 100%;
     position: absolute;
-    font-size: 72px;
-    background-color: brown;
+    font-size: 32px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;
+
+    .loader-logo {
+        position: absolute;
+    }
+
+    h1 {
+        font-size: 56px;
+        color: $main-red;
+        font-style: italic;
+    }
     img {
-        height: 150px;
-        width: 150px;
+       height: 65vh;
+       animation: spin 6s linear infinite;
     }
 }

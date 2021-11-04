@@ -1,8 +1,10 @@
-@import './loader.scss';
+@import './colors.scss';
 @import './keyframes.scss';
-$main-red: #d20a0a;
+@import './loader.scss';
+@import './fonts.scss';
 
 body {
+  font-family: 'Raleway', sans-serif;
   width: 100%;
 }
 
@@ -58,7 +60,6 @@ body {
 
 #weight-classes {
   height: 25px;
-  font-family: "Open Sans Condensed", sans-serif;
   width: 150px;
   text-align: center;
   cursor: pointer;
